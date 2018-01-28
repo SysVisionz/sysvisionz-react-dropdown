@@ -1,0 +1,18 @@
+{
+  "name": "react-custom-dropdown",
+  "version": "1.2.0",
+  "description": "A quick and easy but highly customizable dropdown menu creator",
+  "repository": "https://github.com/SysVisionz/react-custom-dropdown",
+  "private": true,
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
