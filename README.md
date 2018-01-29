@@ -4,11 +4,21 @@ This module allows you to utilize a simple, highly customizable dropdown menu th
 
 ## Getting Started
 
-All you have to do is
+### Installation
+To install, in terminal type
+
+```
+	npm i --save-dev sysvisionz-react-dropdown
+```
+
+then, in your react project,
+
 ```
 import Dropdown from 'sysvisionz-react-dropdown';
-```
-and then implement it by including that component within your code, via
+```  
+
+and finally, implement it by including that component within your code:
+
 ```
 <Dropdown
 	{options}
@@ -40,16 +50,16 @@ and then implement it by including that component within your code, via
 **accepted variables:** boolean
 **behavior:** Defaults to false. Reverses order in which the menu items appear.
 
-#### popDirection
+#### dropDirection
 
 **accepted variables:** 'up', 'down', 'left', 'right'  
-**behavior:** Defaults to 'down' variable if not specified. This dictates the direction that your dropdown menu pops out of the main menu button.
+**behavior:** Defaults to 'down' variable if not specified. This dictates the direction that your dropdown menu drops out of the main menu button.
 
 
-#### dropDirection
+#### popDirection
 **accepted variables:** 'up', 'down', 'left', 'right'  
 *cannot be opposite of popDirection.*  
-**behavior:** Defaults to popDirection variable if not specified. This dictates the direction that your dropdown menu drops from the inital popped out element.
+**behavior:** Defaults to popDirection variable if not specified. This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.
 
 
 #### listVisible
@@ -82,4 +92,8 @@ The only prerequisite for the use of this is that you have React installed.
 initial release  
 1.1 -   
 implemented ability to use any JSX element as main menu button  
-implemented keepOpen option
+implemented keepOpen option  
+1.2 -  
+resolved location issues with package.json
+reversed dropDirection and popDirection for clarity.
+cleaner implementation of several code sections.
