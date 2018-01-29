@@ -3,6 +3,7 @@
   "version": "1.2.10",
   "description": "A quick and easy but highly customizable dropdown menu creator",
   "main": "build/index.js",
+  "repository": "https://github.com/SysVisionz/sysvisionz-react-dropdown",
   "peerDependencies": {
     "react": "^15.5.4"
   },
