@@ -11,7 +11,7 @@ export default class Dropdown extends Component {
     const keyProp = keyName(props.label) + Math.floor(Math.random()*1000000);
     buttonId = (buttonId || 'svzDropButton' + Math.floor(Math.random()*1000000));
     let lastVisible;
-    const {dropDirection, popDirection} = props;
+    const {dropDirection, popDirection, delay} = props;
     const popStyle = this.listStyle(dropDirection, popDirection);
     this.state ={
       popDirection,
@@ -23,6 +23,7 @@ export default class Dropdown extends Component {
       keyProp,
       buttonId,
       popStyle,
+      isOpen: delay ? false : undefined,
       listClickable: true
     }
     !props.keepOpen ? window.addEventListener('click', this.onClickClose.bind(this)) : void 0;
@@ -78,8 +79,8 @@ export default class Dropdown extends Component {
   closeMenu = () => {
     if (this.props.delay) {
       this.delayer ? clearTimeout(this.delayer): void 0;
-      !this.props.clickableInDelay ? this.setState({listClickable: false}) : void 0;
-      this.delayer = setTimeout(() => this.setState({listVisible: false, listClickable: true}), this.props.delay);
+      !this.props.clickableInDelay ? this.setState({listVisible: false, listClickable: false}) : void 0;
+      this.delayer = setTimeout(() => this.setState({isOpen: false, listClickable: true}), this.props.delay);
     }
     else
       this.setState({listVisible: false});
@@ -99,83 +100,47 @@ export default class Dropdown extends Component {
     }
     switch(dropDirection){
       case 'up':
+        all.bottom = '100%'
         switch(popDirection){
           case 'left':
-            return {
-              ...all,
-              bottom: '100%',
-              right: '0'
-            }
+            all.right=0;
+            return all;
           case 'right':
-            return {
-              ...all, 
-              bottom: '100%',
-              left: '0'
-            }
+            all.left=0;
+            return all;
           case 'up':
           default:
-            return {
-              ...all, 
-              bottom: '100%', 
-            };
+            return all;
         }
       case 'left':
+        all.right='100%';
         switch(popDirection){
           case 'up':
-            return {
-              ...all,
-              bottom: 0,
-              right:'100%'
-            }
-          case 'down':
-            return {
-              ...all,
-              top: 0,
-              right: '100%'
-            }
-          case 'left':
+            all.bottom = 0;
+            return all;
           default:
-            return {
-              ...all,
-              top: 0,
-              right: '100%',
-            }
+            all.top=0;
+            return all;
         }
       case 'right':
+        all.left='100%'
         switch(popDirection){
           case 'up':
-            return {
-              ...all,
-              bottom: 0,
-              left: '100%'
-            }
-          case 'down':
-            return {
-              ...all,
-              top: 0,
-              left: '100%'
-            }
-          case 'right':
+            all.bottom=0;
+            return all;
           default:
-            return {
-              ...all,
-              top: 0,
-              left: '100%'
-            }
+            all.top= 0;
+            return all;
         }
       case 'down':
       default:
         switch(popDirection){
           case 'left':
-            return {
-              ...all,
-              right: 0,
-            }
+            all.right= 0;
+            return all;
           case 'right':
-            return {
-              ...all, 
-              left: 0,
-            }
+            all.left= 0;
+            return all;
           case 'down':
           default:
             return all
@@ -211,14 +176,22 @@ export default class Dropdown extends Component {
     });
   }
 
+  buttonClick = () => {
+    this.delayer ? clearTimeout(this.delayer): void 0;
+    this.setState({listVisible: !this.state.listVisible});
+    this.props.delay
+      ? this.state.listVisible ? this.closeMenu() : this.setState({isOpen: true})
+      : void 0;
+  }
+
   render() {
-    const {state, props, renderMenu, onToggle} = this;
+    const {state, props, renderMenu, onToggle, buttonClick} = this;
     const {buttonStyle, menuStyle, style} = props;
-    const {popStyle, listVisible, keyProp, buttonId, listClickable} = state;
+    const {popStyle, keyProp, buttonId, listClickable, listVisible, isOpen} = state;
     return (
       <div style = {{position: 'relative', display: 'inline-block', ...style}}>
-        <div id={buttonId} style = {{cursor: 'pointer', ...buttonStyle}} onClick={() => this.setState({listVisible: !listVisible})}>{this.props.label}</div>
-        <div style = {{pointerEvents: listClickable ? 'auto' : 'none'}} hidden={!listVisible}>
+        <div id={buttonId} style = {{cursor: 'pointer', ...buttonStyle}} onClick={() => buttonClick()}>{this.props.label}</div>
+        <div style = {{pointerEvents: listClickable ? 'auto' : 'none'}} hidden={typeof isOpen != 'undefined' ? !isOpen : !listVisible}>
           <div style={{...popStyle, ...menuStyle}}>
             {renderMenu()}
           </div>

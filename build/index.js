@@ -121,7 +121,8 @@ var Dropdown = function (_Component) {
     buttonId = buttonId || 'svzDropButton' + Math.floor(Math.random() * 1000000);
     var lastVisible = void 0;
     var dropDirection = props.dropDirection,
-        popDirection = props.popDirection;
+        popDirection = props.popDirection,
+        delay = props.delay;
 
     var popStyle = _this.listStyle(dropDirection, popDirection);
     _this.state = {
@@ -134,6 +135,7 @@ var Dropdown = function (_Component) {
       keyProp: keyProp,
       buttonId: buttonId,
       popStyle: popStyle,
+      isOpen: delay ? false : undefined,
       listClickable: true
     };
     !props.keepOpen ? window.addEventListener('click', _this.onClickClose.bind(_this)) : void 0;
@@ -167,20 +169,20 @@ var Dropdown = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var state = this.state,
           props = this.props,
           renderMenu = this.renderMenu,
-          onToggle = this.onToggle;
+          onToggle = this.onToggle,
+          buttonClick = this.buttonClick;
       var buttonStyle = props.buttonStyle,
           menuStyle = props.menuStyle,
           style = props.style;
       var popStyle = state.popStyle,
-          listVisible = state.listVisible,
           keyProp = state.keyProp,
           buttonId = state.buttonId,
-          listClickable = state.listClickable;
+          listClickable = state.listClickable,
+          listVisible = state.listVisible,
+          isOpen = state.isOpen;
 
       return _react2.default.createElement(
         'div',
@@ -188,13 +190,13 @@ var Dropdown = function (_Component) {
         _react2.default.createElement(
           'div',
           { id: buttonId, style: _extends({ cursor: 'pointer' }, buttonStyle), onClick: function onClick() {
-              return _this2.setState({ listVisible: !listVisible });
+              return buttonClick();
             } },
           this.props.label
         ),
         _react2.default.createElement(
           'div',
-          { style: { pointerEvents: listClickable ? 'auto' : 'none' }, hidden: !listVisible },
+          { style: { pointerEvents: listClickable ? 'auto' : 'none' }, hidden: typeof isOpen != 'undefined' ? !isOpen : !listVisible },
           _react2.default.createElement(
             'div',
             { style: _extends({}, popStyle, menuStyle) },
@@ -209,7 +211,7 @@ var Dropdown = function (_Component) {
 }(_react.Component);
 
 var _initialiseProps = function _initialiseProps() {
-  var _this3 = this;
+  var _this2 = this;
 
   this.reverseArray = function (array) {
     var newArray = [];
@@ -220,8 +222,8 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.onClickClose = function (event) {
-    if (_this3.state.listVisible) {
-      var label = document.getElementById(_this3.state.buttonId);
+    if (_this2.state.listVisible) {
+      var label = document.getElementById(_this2.state.buttonId);
       var currentTarg = event.target;
       while (currentTarg) {
         if (currentTarg === label) {
@@ -230,17 +232,17 @@ var _initialiseProps = function _initialiseProps() {
         currentTarg = currentTarg.parentNode;
       }
     }
-    _this3.closeMenu();
+    _this2.closeMenu();
   };
 
   this.closeMenu = function () {
-    if (_this3.props.delay) {
-      _this3.delayer ? clearTimeout(_this3.delayer) : void 0;
-      !_this3.props.clickableInDelay ? _this3.setState({ listClickable: false }) : void 0;
-      _this3.delayer = setTimeout(function () {
-        return _this3.setState({ listVisible: false, listClickable: true });
-      }, _this3.props.delay);
-    } else _this3.setState({ listVisible: false });
+    if (_this2.props.delay) {
+      _this2.delayer ? clearTimeout(_this2.delayer) : void 0;
+      !_this2.props.clickableInDelay ? _this2.setState({ listVisible: false, listClickable: false }) : void 0;
+      _this2.delayer = setTimeout(function () {
+        return _this2.setState({ isOpen: false, listClickable: true });
+      }, _this2.props.delay);
+    } else _this2.setState({ listVisible: false });
   };
 
   this.listStyle = function (dropDirection, popDirection) {
@@ -257,72 +259,47 @@ var _initialiseProps = function _initialiseProps() {
     }
     switch (dropDirection) {
       case 'up':
+        all.bottom = '100%';
         switch (popDirection) {
           case 'left':
-            return _extends({}, all, {
-              bottom: '100%',
-              right: '0'
-            });
+            all.right = 0;
+            return all;
           case 'right':
-            return _extends({}, all, {
-              bottom: '100%',
-              left: '0'
-            });
+            all.left = 0;
+            return all;
           case 'up':
           default:
-            return _extends({}, all, {
-              bottom: '100%'
-            });
+            return all;
         }
       case 'left':
+        all.right = '100%';
         switch (popDirection) {
           case 'up':
-            return _extends({}, all, {
-              bottom: 0,
-              right: '100%'
-            });
-          case 'down':
-            return _extends({}, all, {
-              top: 0,
-              right: '100%'
-            });
-          case 'left':
+            all.bottom = 0;
+            return all;
           default:
-            return _extends({}, all, {
-              top: 0,
-              right: '100%'
-            });
+            all.top = 0;
+            return all;
         }
       case 'right':
+        all.left = '100%';
         switch (popDirection) {
           case 'up':
-            return _extends({}, all, {
-              bottom: 0,
-              left: '100%'
-            });
-          case 'down':
-            return _extends({}, all, {
-              top: 0,
-              left: '100%'
-            });
-          case 'right':
+            all.bottom = 0;
+            return all;
           default:
-            return _extends({}, all, {
-              top: 0,
-              left: '100%'
-            });
+            all.top = 0;
+            return all;
         }
       case 'down':
       default:
         switch (popDirection) {
           case 'left':
-            return _extends({}, all, {
-              right: 0
-            });
+            all.right = 0;
+            return all;
           case 'right':
-            return _extends({}, all, {
-              left: 0
-            });
+            all.left = 0;
+            return all;
           case 'down':
           default:
             return all;
@@ -345,7 +322,7 @@ var _initialiseProps = function _initialiseProps() {
           for (var _iterator = label.props.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var i = _step.value;
 
-            key = _this3.keyName(i);
+            key = _this2.keyName(i);
             if (key !== 'dropElem') return key;
           }
         } catch (err) {
@@ -368,26 +345,32 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.renderMenu = function () {
-    var _props = _this3.props,
+    var _props = _this2.props,
         listItemStyle = _props.listItemStyle,
         entries = _props.entries;
-    var keyProp = _this3.state.keyProp;
+    var keyProp = _this2.state.keyProp;
 
     return entries.map(function (entry, index) {
       if (entry.id) return _react2.default.createElement(
         'div',
         { key: keyProp.concat(index), style: listItemStyle, id: entry.id, className: 'listEntry', onClick: function onClick() {
-            return _this3.props.onSelect ? _this3.props.onSelect(entry.children) : void 0;
+            return _this2.props.onSelect ? _this2.props.onSelect(entry.children) : void 0;
           } },
         entry.children
       );else return _react2.default.createElement(
         'div',
         { key: keyProp.concat(index), style: listItemStyle, className: 'listEntry', onClick: function onClick() {
-            return _this3.props.onSelect ? _this3.props.onSelect(entry) : void 0;
+            return _this2.props.onSelect ? _this2.props.onSelect(entry) : void 0;
           } },
         entry
       );
     });
+  };
+
+  this.buttonClick = function () {
+    _this2.delayer ? clearTimeout(_this2.delayer) : void 0;
+    _this2.setState({ listVisible: !_this2.state.listVisible });
+    _this2.props.delay ? _this2.state.listVisible ? _this2.closeMenu() : _this2.setState({ isOpen: true }) : void 0;
   };
 };
 
