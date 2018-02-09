@@ -3,20 +3,54 @@ import React, { Component } from 'react';
 export default class Dropdown extends Component {
 
   constructor(props) {
-    super();
-    const {listItemStyle, reverseOrder, listVisible} = props;
-    let {entries}=props;
+    super(props);
+    const {reverseOrder, listVisible} = props;
+    let {entries, buttonId}=props;
     const {keyName} = this;
     entries = reverseOrder ?  this.reverseArray(entries) : entries;
-    const keyProp = keyName(props.label);
+    const keyProp = keyName(props.label) + Math.floor(Math.random()*1000000);
+    buttonId = (buttonId || 'svzDropButton' + Math.floor(Math.random()*1000000));
+    let lastVisible;
+    const {dropDirection, popDirection} = props;
+    const popStyle = this.listStyle(dropDirection, popDirection);
     this.state ={
-      listVisible : (listVisible || false),
+      popDirection,
+      dropDirection,
+      lastVisible,
+      listVisible,
       heightOf: 0,
-      listItemStyle,
       entries,
       keyProp,
+      buttonId,
+      popStyle,
+      listClickable: true
     }
     !props.keepOpen ? window.addEventListener('click', this.onClickClose.bind(this)) : void 0;
+  }
+
+  componentWillUpdate() {
+    this.state.lastVisible = this.state.listVisible;
+  }
+
+  componentWillReceiveProps(nextProps){
+    const {listStyle} = this
+    const {dropDirection, popDirection} = nextProps;
+    const popStyle = listStyle(dropDirection, popDirection);
+    this.state.popDirection != popDirection || this.state.dropDirection != dropDirection 
+    ? this.setState({popStyle, popDirection, dropDirection}) 
+    : void 0;
+  }
+
+  componentDidUpdate() {
+    if (this.state.lastVisible != this.state.listVisible){
+      this.props.onToggle ? this.props.onToggle(this.state.listVisible): void 0;
+      this.props.onOpen 
+      ? this.state.listVisible ? this.props.onOpen() : void 0 
+      : void 0;
+      this.props.onClose 
+      ? !this.state.listVisible ? this.props.onClose() : void 0 
+      : void 0;
+    }
   }
 
   reverseArray = (array) => {
@@ -27,45 +61,54 @@ export default class Dropdown extends Component {
     return newArray;
   }
 
-  componentDidMount() {
-    const {props, listStyle} = this
-    const {dropDirection, popDirection} = props;
-    const popStyle = listStyle(dropDirection, popDirection);
-    this.setState({popStyle});
-  }
-
   onClickClose = (event) => {
     if(this.state.listVisible){
-        const label = document.getElementById('label');
-        let currentTarg = event.target;
-        while (currentTarg){
-          if (currentTarg === label){
-            return;
-          }
-          currentTarg = currentTarg.parentNode;
+      const label = document.getElementById(this.state.buttonId);
+      let currentTarg = event.target;
+      while (currentTarg){
+        if (currentTarg === label){
+          return;
         }
-        this.setState({listVisible: false});
+        currentTarg = currentTarg.parentNode;
+      }
     }
+    this.closeMenu();
+  }
+
+  closeMenu = () => {
+    if (this.props.delay) {
+      this.delayer ? clearTimeout(this.delayer): void 0;
+      !this.props.clickableInDelay ? this.setState({listClickable: false}) : void 0;
+      this.delayer = setTimeout(() => this.setState({listVisible: false, listClickable: true}), this.props.delay);
+    }
+    else
+      this.setState({listVisible: false});
   }
 
   listStyle = (dropDirection, popDirection) => {
-    const all = {position: 'absolute'}
+    let all = {position: 'absolute', display: 'flex'}
+    switch (popDirection || dropDirection){
+      case 'right':
+      case 'left':
+        all.flexDirection = 'row';
+        break;
+      case 'down':
+      case 'up':
+      default:
+        all.flexDirection = 'column'
+    }
     switch(dropDirection){
       case 'up':
         switch(popDirection){
           case 'left':
             return {
               ...all,
-              display: 'flex',
-              flexDirection: 'row-reverse',
               bottom: '100%',
               right: '0'
             }
           case 'right':
             return {
               ...all, 
-              display: 'flex',
-              flexDirection: 'row',
               bottom: '100%',
               left: '0'
             }
@@ -74,8 +117,6 @@ export default class Dropdown extends Component {
             return {
               ...all, 
               bottom: '100%', 
-              display: 'flex', 
-              flexDirection: 'column-reverse' 
             };
         }
       case 'left':
@@ -84,26 +125,20 @@ export default class Dropdown extends Component {
             return {
               ...all,
               bottom: 0,
-              display: 'flex',
-              flexDirection: 'column-reverse',
-              left:'-100%'
+              right:'100%'
             }
           case 'down':
             return {
               ...all,
               top: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              left: '-100%'
+              right: '100%'
             }
           case 'left':
           default:
             return {
               ...all,
-              right: '100%',
               top: 0,
-              display: 'flex',
-              flexDirection: 'row-reverse'
+              right: '100%',
             }
         }
       case 'right':
@@ -112,25 +147,19 @@ export default class Dropdown extends Component {
             return {
               ...all,
               bottom: 0,
-              display: 'flex',
-              flexDirection: 'column-reverse',
-              right: '-100%'
+              left: '100%'
             }
           case 'down':
             return {
               ...all,
               top: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              right: '-100%'
+              left: '100%'
             }
           case 'right':
           default:
             return {
               ...all,
               top: 0,
-              display: 'flex',
-              flexDirection: 'row',
               left: '100%'
             }
         }
@@ -141,23 +170,15 @@ export default class Dropdown extends Component {
             return {
               ...all,
               right: 0,
-              display: 'flex',
-              flexDirection: 'row-reverse'
             }
           case 'right':
             return {
               ...all, 
-              display: 'flex',
               left: 0,
-              flexDirection: 'row'
             }
           case 'down':
           default:
-            return {
-              ...all,
-              display: 'flex',
-              flexDirection: 'column'
-            }
+            return all
         }
     }
   }
@@ -179,16 +200,27 @@ export default class Dropdown extends Component {
     return 'dropElem';
   }
 
+  renderMenu = () => {
+    const {listItemStyle, entries} = this.props;
+    const {keyProp} = this.state;
+    return entries.map((entry, index) => {
+      if (entry.id)
+        return (<div key={keyProp.concat(index)} style={listItemStyle} id={entry.id} className="listEntry" onClick ={() => this.props.onSelect ? this.props.onSelect(entry.children) : void 0}>{entry.children}</div>);
+      else 
+        return (<div key={keyProp.concat(index)} style={listItemStyle} className="listEntry" onClick={() => this.props.onSelect ? this.props.onSelect(entry) : void 0}>{entry}</div>);
+    });
+  }
+
   render() {
-    const {state, props} = this;
-    const {buttonStyle, menuStyle, listItemStyle } = props;
-    const {popStyle, listVisible, keyProp, entries} = state;
+    const {state, props, renderMenu, onToggle} = this;
+    const {buttonStyle, menuStyle, style} = props;
+    const {popStyle, listVisible, keyProp, buttonId, listClickable} = state;
     return (
-      <div style = {{position: 'relative', display: 'inline-block'}}>
-        <div id='label' style = {{cursor: 'pointer', ...buttonStyle}} onClick={() => this.setState({listVisible: !listVisible})}>{this.props.label}</div>
-        <div hidden={!listVisible} id={keyProp.concat('menu')}>
+      <div style = {{position: 'relative', display: 'inline-block', ...style}}>
+        <div id={buttonId} style = {{cursor: 'pointer', ...buttonStyle}} onClick={() => this.setState({listVisible: !listVisible})}>{this.props.label}</div>
+        <div style = {{pointerEvents: listClickable ? 'auto' : 'none'}} hidden={!listVisible}>
           <div style={{...popStyle, ...menuStyle}}>
-            {entries.map((entry, index) => <div key={keyProp.concat(index)} style={listItemStyle} className="listEntry" onClick={() => this.props.onSelect(entry)}>{entry}</div>)}
+            {renderMenu()}
           </div>
         </div>
       </div>

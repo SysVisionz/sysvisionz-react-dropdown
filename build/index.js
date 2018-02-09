@@ -106,198 +106,63 @@ var Dropdown = function (_Component) {
   function Dropdown(props) {
     _classCallCheck(this, Dropdown);
 
-    var _this = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this));
+    var _this = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this, props));
 
-    _this.reverseArray = function (array) {
-      var newArray = [];
-      for (var entry in array) {
-        newArray.splice(0, 0, array[entry]);
-      }
-      return newArray;
-    };
+    _initialiseProps.call(_this);
 
-    _this.onClickClose = function (event) {
-      if (_this.state.listVisible) {
-        var label = document.getElementById('label');
-        var currentTarg = event.target;
-        while (currentTarg) {
-          if (currentTarg === label) {
-            return;
-          }
-          currentTarg = currentTarg.parentNode;
-        }
-        _this.setState({ listVisible: false });
-      }
-    };
-
-    _this.listStyle = function (popDirection, dropDirection) {
-      var all = { position: 'absolute' };
-      switch (popDirection) {
-        case 'up':
-          switch (dropDirection) {
-            case 'left':
-              return _extends({}, all, {
-                display: 'flex',
-                flexDirection: 'row-reverse',
-                bottom: '100%',
-                right: '0'
-              });
-            case 'right':
-              return _extends({}, all, {
-                display: 'flex',
-                flexDirection: 'row',
-                bottom: '100%',
-                left: '0'
-              });
-            case 'up':
-            default:
-              return _extends({}, all, {
-                bottom: '100%',
-                display: 'flex',
-                flexDirection: 'column-reverse'
-              });
-          }
-        case 'left':
-          switch (dropDirection) {
-            case 'up':
-              return _extends({}, all, {
-                bottom: 0,
-                display: 'flex',
-                flexDirection: 'column-reverse',
-                left: '-100%'
-              });
-            case 'down':
-              return _extends({}, all, {
-                top: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                left: '-100%'
-              });
-            case 'left':
-            default:
-              return _extends({}, all, {
-                right: '100%',
-                top: 0,
-                display: 'flex',
-                flexDirection: 'row-reverse'
-              });
-          }
-        case 'right':
-          switch (dropDirection) {
-            case 'up':
-              return _extends({}, all, {
-                bottom: 0,
-                display: 'flex',
-                flexDirection: 'column-reverse',
-                right: '-100%'
-              });
-            case 'down':
-              return _extends({}, all, {
-                top: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                right: '-100%'
-              });
-            case 'right':
-            default:
-              return _extends({}, all, {
-                top: 0,
-                display: 'flex',
-                flexDirection: 'row',
-                left: '100%'
-              });
-          }
-        case 'down':
-        default:
-          switch (dropDirection) {
-            case 'left':
-              return _extends({}, all, {
-                right: 0,
-                display: 'flex',
-                flexDirection: 'row-reverse'
-              });
-            case 'right':
-              return _extends({}, all, {
-                display: 'flex',
-                left: 0,
-                flexDirection: 'row'
-              });
-            case 'down':
-            default:
-              return _extends({}, all, {
-                display: 'flex',
-                flexDirection: 'column'
-              });
-          }
-      }
-    };
-
-    _this.keyName = function (label) {
-      var key = void 0;
-      if (label.props) {
-        if (label.props.children) {
-          if (typeof label.props.children === 'string') {
-            return label.props.children;
-          }
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = label.props.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var i = _step.value;
-
-              key = _this.keyName(i);
-              if (key !== 'dropElem') return key;
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
-        }
-      }
-      return 'dropElem';
-    };
-
-    var listItemStyle = props.listItemStyle,
-        reverseOrder = props.reverseOrder,
+    var reverseOrder = props.reverseOrder,
         listVisible = props.listVisible;
-    var entries = props.entries;
+    var entries = props.entries,
+        buttonId = props.buttonId;
     var keyName = _this.keyName;
 
     entries = reverseOrder ? _this.reverseArray(entries) : entries;
-    var keyProp = keyName(props.label);
+    var keyProp = keyName(props.label) + Math.floor(Math.random() * 1000000);
+    buttonId = buttonId || 'svzDropButton' + Math.floor(Math.random() * 1000000);
+    var lastVisible = void 0;
+    var dropDirection = props.dropDirection,
+        popDirection = props.popDirection;
+
+    var popStyle = _this.listStyle(dropDirection, popDirection);
     _this.state = {
-      listVisible: listVisible || false,
+      popDirection: popDirection,
+      dropDirection: dropDirection,
+      lastVisible: lastVisible,
+      listVisible: listVisible,
       heightOf: 0,
-      listItemStyle: listItemStyle,
       entries: entries,
-      keyProp: keyProp
+      keyProp: keyProp,
+      buttonId: buttonId,
+      popStyle: popStyle,
+      listClickable: true
     };
     !props.keepOpen ? window.addEventListener('click', _this.onClickClose.bind(_this)) : void 0;
     return _this;
   }
 
   _createClass(Dropdown, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var props = this.props,
-          listStyle = this.listStyle;
-      var popDirection = props.popDirection,
-          dropDirection = props.dropDirection;
+    key: 'componentWillUpdate',
+    value: function componentWillUpdate() {
+      this.state.lastVisible = this.state.listVisible;
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var listStyle = this.listStyle;
+      var dropDirection = nextProps.dropDirection,
+          popDirection = nextProps.popDirection;
 
-      var popStyle = listStyle(popDirection, dropDirection);
-      this.setState({ popStyle: popStyle });
+      var popStyle = listStyle(dropDirection, popDirection);
+      this.state.popDirection != popDirection || this.state.dropDirection != dropDirection ? this.setState({ popStyle: popStyle, popDirection: popDirection, dropDirection: dropDirection }) : void 0;
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (this.state.lastVisible != this.state.listVisible) {
+        this.props.onToggle ? this.props.onToggle(this.state.listVisible) : void 0;
+        this.props.onOpen ? this.state.listVisible ? this.props.onOpen() : void 0 : void 0;
+        this.props.onClose ? !this.state.listVisible ? this.props.onClose() : void 0 : void 0;
+      }
     }
   }, {
     key: 'render',
@@ -305,40 +170,35 @@ var Dropdown = function (_Component) {
       var _this2 = this;
 
       var state = this.state,
-          props = this.props;
+          props = this.props,
+          renderMenu = this.renderMenu,
+          onToggle = this.onToggle;
       var buttonStyle = props.buttonStyle,
           menuStyle = props.menuStyle,
-          listItemStyle = props.listItemStyle;
+          style = props.style;
       var popStyle = state.popStyle,
           listVisible = state.listVisible,
           keyProp = state.keyProp,
-          entries = state.entries;
+          buttonId = state.buttonId,
+          listClickable = state.listClickable;
 
       return _react2.default.createElement(
         'div',
-        { style: { position: 'relative', display: 'inline-block' } },
+        { style: _extends({ position: 'relative', display: 'inline-block' }, style) },
         _react2.default.createElement(
           'div',
-          { id: 'label', style: _extends({ cursor: 'pointer' }, buttonStyle), onClick: function onClick() {
+          { id: buttonId, style: _extends({ cursor: 'pointer' }, buttonStyle), onClick: function onClick() {
               return _this2.setState({ listVisible: !listVisible });
             } },
           this.props.label
         ),
         _react2.default.createElement(
           'div',
-          { hidden: !listVisible, id: keyProp.concat('menu') },
+          { style: { pointerEvents: listClickable ? 'auto' : 'none' }, hidden: !listVisible },
           _react2.default.createElement(
             'div',
             { style: _extends({}, popStyle, menuStyle) },
-            entries.map(function (entry, index) {
-              return _react2.default.createElement(
-                'div',
-                { key: keyProp.concat(index), style: listItemStyle, className: 'listEntry', onClick: function onClick() {
-                    return _this2.props.onSelect(entry);
-                  } },
-                entry
-              );
-            })
+            renderMenu()
           )
         )
       );
@@ -347,6 +207,189 @@ var Dropdown = function (_Component) {
 
   return Dropdown;
 }(_react.Component);
+
+var _initialiseProps = function _initialiseProps() {
+  var _this3 = this;
+
+  this.reverseArray = function (array) {
+    var newArray = [];
+    for (var entry in array) {
+      newArray.splice(0, 0, array[entry]);
+    }
+    return newArray;
+  };
+
+  this.onClickClose = function (event) {
+    if (_this3.state.listVisible) {
+      var label = document.getElementById(_this3.state.buttonId);
+      var currentTarg = event.target;
+      while (currentTarg) {
+        if (currentTarg === label) {
+          return;
+        }
+        currentTarg = currentTarg.parentNode;
+      }
+    }
+    _this3.closeMenu();
+  };
+
+  this.closeMenu = function () {
+    if (_this3.props.delay) {
+      _this3.delayer ? clearTimeout(_this3.delayer) : void 0;
+      !_this3.props.clickableInDelay ? _this3.setState({ listClickable: false }) : void 0;
+      _this3.delayer = setTimeout(function () {
+        return _this3.setState({ listVisible: false, listClickable: true });
+      }, _this3.props.delay);
+    } else _this3.setState({ listVisible: false });
+  };
+
+  this.listStyle = function (dropDirection, popDirection) {
+    var all = { position: 'absolute', display: 'flex' };
+    switch (popDirection || dropDirection) {
+      case 'right':
+      case 'left':
+        all.flexDirection = 'row';
+        break;
+      case 'down':
+      case 'up':
+      default:
+        all.flexDirection = 'column';
+    }
+    switch (dropDirection) {
+      case 'up':
+        switch (popDirection) {
+          case 'left':
+            return _extends({}, all, {
+              bottom: '100%',
+              right: '0'
+            });
+          case 'right':
+            return _extends({}, all, {
+              bottom: '100%',
+              left: '0'
+            });
+          case 'up':
+          default:
+            return _extends({}, all, {
+              bottom: '100%'
+            });
+        }
+      case 'left':
+        switch (popDirection) {
+          case 'up':
+            return _extends({}, all, {
+              bottom: 0,
+              right: '100%'
+            });
+          case 'down':
+            return _extends({}, all, {
+              top: 0,
+              right: '100%'
+            });
+          case 'left':
+          default:
+            return _extends({}, all, {
+              top: 0,
+              right: '100%'
+            });
+        }
+      case 'right':
+        switch (popDirection) {
+          case 'up':
+            return _extends({}, all, {
+              bottom: 0,
+              left: '100%'
+            });
+          case 'down':
+            return _extends({}, all, {
+              top: 0,
+              left: '100%'
+            });
+          case 'right':
+          default:
+            return _extends({}, all, {
+              top: 0,
+              left: '100%'
+            });
+        }
+      case 'down':
+      default:
+        switch (popDirection) {
+          case 'left':
+            return _extends({}, all, {
+              right: 0
+            });
+          case 'right':
+            return _extends({}, all, {
+              left: 0
+            });
+          case 'down':
+          default:
+            return all;
+        }
+    }
+  };
+
+  this.keyName = function (label) {
+    var key = void 0;
+    if (label.props) {
+      if (label.props.children) {
+        if (typeof label.props.children === 'string') {
+          return label.props.children;
+        }
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = label.props.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var i = _step.value;
+
+            key = _this3.keyName(i);
+            if (key !== 'dropElem') return key;
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+      }
+    }
+    return 'dropElem';
+  };
+
+  this.renderMenu = function () {
+    var _props = _this3.props,
+        listItemStyle = _props.listItemStyle,
+        entries = _props.entries;
+    var keyProp = _this3.state.keyProp;
+
+    return entries.map(function (entry, index) {
+      if (entry.id) return _react2.default.createElement(
+        'div',
+        { key: keyProp.concat(index), style: listItemStyle, id: entry.id, className: 'listEntry', onClick: function onClick() {
+            return _this3.props.onSelect ? _this3.props.onSelect(entry.children) : void 0;
+          } },
+        entry.children
+      );else return _react2.default.createElement(
+        'div',
+        { key: keyProp.concat(index), style: listItemStyle, className: 'listEntry', onClick: function onClick() {
+            return _this3.props.onSelect ? _this3.props.onSelect(entry) : void 0;
+          } },
+        entry
+      );
+    });
+  };
+};
 
 exports.default = Dropdown;
 
