@@ -33,7 +33,7 @@ and finally, implement it by including that component within your code:
 
 #### entries
 
-**accepted variables:** array of strings, JSX elements, or objects with ```id``` and ```children``` properties.
+**accepted variables:** array of strings, JSX elements, or objects with ```id``` and ```children``` properties.  
 **behavior:** dictates the children of the entries in the dropdown menu.  If split into ```id``` and ```children```, the ```id``` property is applied as the id of the div containing this array element, and the ```children``` property dictates the children of that element.
 
 ### Optional Variables
@@ -47,15 +47,15 @@ and finally, implement it by including that component within your code:
 **behavior:** Function performed when a dropdown menu item is clicked using the entry clicked.
 
 #### buttonId
-**accepted variables:** string
+**accepted variables:** string  
 **behavior:** dictates the id property for the activating button in the menu. This is automatically generated if left blank.
 
 #### menuId
-**accepted variables:** string
+**accepted variables:** string  
 **behavior:** dictates the id for the dropdown menu element.
 
 #### reverseOrder
-**accepted variables:** boolean
+**accepted variables:** boolean  
 **behavior:** Defaults to false. Reverses order in which the menu items appear.
 
 #### dropDirection
@@ -84,7 +84,7 @@ and finally, implement it by including that component within your code:
 **behavior:** dictates styling of the dropdown activating button
 
 #### menuStyle
-**accepted variables:** JSX styling  **DO NOT INCLUDE position STYLING**
+**accepted variables:** JSX styling  **DO NOT INCLUDE position STYLING**  
 **behavior:** dictates styling of the dropdown menu
 
 #### listItemStyle
@@ -126,15 +126,15 @@ initial release
 implemented ability to use any JSX element as activating button  
 implemented keepOpen prop.  
 1.2 -  
-resolved location issues with package.json
-reversed dropDirection and popDirection for clarity.
+resolved location issues with package.json  
+reversed dropDirection and popDirection for clarity.  
 cleaner implementation of several code sections.  
 1.3 -  
 allowed for multiple dropdowns to be generated.  
 1.4 -  
 added style prop.  
 1.5 -  
-added buttonId and menuId properties
+added buttonId and menuId properties  
 added ability to split array elements into ```id``` and ```children``` properties.  
 1.6 -  
 added onToggle, onOpen, and onClose properties.  
