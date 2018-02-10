@@ -122,7 +122,7 @@ The only prerequisite for the use of this is that you have React installed.
 ## Version History
 1.0 -   
 initial release  
-1.1 -   
+1.1 -  
 implemented ability to use any JSX element as activating button  
 implemented keepOpen prop.  
 1.2 -  
@@ -132,11 +132,11 @@ cleaner implementation of several code sections.
 1.3 -  
 allowed for multiple dropdowns to be generated.  
 1.4 -  
-added style prop.
+added style prop.  
 1.5 -  
 added buttonId and menuId properties
-added ability to split array elements into ```id``` and ```children``` properties.
+added ability to split array elements into ```id``` and ```children``` properties.  
 1.6 -  
-added onToggle, onOpen, and onClose properties.
+added onToggle, onOpen, and onClose properties.  
 1.7 -  
-added delay and clickableInDelay properties.
+added delay and clickableInDelay properties.  
