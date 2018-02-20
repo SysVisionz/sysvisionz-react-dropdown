@@ -186,13 +186,13 @@ export default class Dropdown extends Component {
 
   render() {
     const {state, props, renderMenu, onToggle, buttonClick} = this;
-    const {buttonStyle, menuStyle, style} = props;
+    const {buttonStyle, menuStyle, style, className, id, menuClass, menuId} = props;
     const {popStyle, keyProp, buttonId, listClickable, listVisible, isOpen} = state;
     return (
-      <div style = {{position: 'relative', display: 'inline-block', ...style}}>
+      <div style = {{position: 'relative', display: 'inline-block', ...style}} className={className} id={id}>
         <div id={buttonId} style = {{cursor: 'pointer', ...buttonStyle}} onClick={() => buttonClick()}>{this.props.label}</div>
         <div style = {{pointerEvents: listClickable ? 'auto' : 'none'}} hidden={typeof isOpen != 'undefined' ? !isOpen : !listVisible}>
-          <div style={{...popStyle, ...menuStyle}}>
+          <div className={menuClass} id={menuId} style={{...popStyle, ...menuStyle}}>
             {renderMenu()}
           </div>
         </div>

@@ -1,2 +1,9 @@
-/build
 /node_modules
+/build
+/.git
+.npmignore
+/public
+webpack.config.js
+.nvmrc
+.babelrc
+/build

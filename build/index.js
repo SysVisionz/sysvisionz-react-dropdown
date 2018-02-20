@@ -176,7 +176,11 @@ var Dropdown = function (_Component) {
           buttonClick = this.buttonClick;
       var buttonStyle = props.buttonStyle,
           menuStyle = props.menuStyle,
-          style = props.style;
+          style = props.style,
+          className = props.className,
+          id = props.id,
+          menuClass = props.menuClass,
+          menuId = props.menuId;
       var popStyle = state.popStyle,
           keyProp = state.keyProp,
           buttonId = state.buttonId,
@@ -186,7 +190,7 @@ var Dropdown = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { style: _extends({ position: 'relative', display: 'inline-block' }, style) },
+        { style: _extends({ position: 'relative', display: 'inline-block' }, style), className: className, id: id },
         _react2.default.createElement(
           'div',
           { id: buttonId, style: _extends({ cursor: 'pointer' }, buttonStyle), onClick: function onClick() {
@@ -199,7 +203,7 @@ var Dropdown = function (_Component) {
           { style: { pointerEvents: listClickable ? 'auto' : 'none' }, hidden: typeof isOpen != 'undefined' ? !isOpen : !listVisible },
           _react2.default.createElement(
             'div',
-            { style: _extends({}, popStyle, menuStyle) },
+            { className: menuClass, id: menuId, style: _extends({}, popStyle, menuStyle) },
             renderMenu()
           )
         )

@@ -1,7 +1,7 @@
 {
   "name": "sysvisionz-react-dropdown",
-  "version": "1.7.2",
-  "description": "A quick and easy but highly customizable dropdown menu creator",
+  "version": "1.7.6",
+  "description": "A quick and easy but lightweight and highly customizable dropdown menu creator",
   "main": "build/index.js",
   "repository": "https://github.com/SysVisionz/sysvisionz-react-dropdown",
   "keywords": ["dropdown", "menu", "SysVisionz", "customizable", "custom", "react", "component"],
@@ -9,8 +9,7 @@
     "react": "^15.5.4"
   },
   "dependencies": {
-    "react": "^15.5.4",
-    "webpack": "^2.6.1"
+    "react": "^15.5.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -30,6 +29,7 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.5.1",
     "babel-preset-stage-0": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1"
+    "babel-preset-stage-2": "^6.24.1",
+    "webpack": "^2.6.1"
   }
 }
