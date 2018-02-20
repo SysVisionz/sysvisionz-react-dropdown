@@ -1,8 +1,0 @@
-/node_modules
-/src
-/.git
-.npmignore
-/public
-webpack.config.js
-.nvmrc
-.babelrc
