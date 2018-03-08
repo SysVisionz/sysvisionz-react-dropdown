@@ -230,7 +230,6 @@ export default class Dropdown extends Component {
     const {state, props, renderMenu, onToggle, buttonClick} = this;
     const {buttonStyle, menuStyle, style, className, id, menuClass, menuId, delay} = props;
     const {popStyle, keyProp, buttonId, listClickable, listVisible, isOpen} = state;
-    console.log(delay)
     return (
       <div style = {{position: 'relative', display: 'inline-block', ...style}} className={className} id={id}>
         <div id={buttonId} style = {{cursor: 'pointer', ...buttonStyle}} onClick={() => buttonClick()}>{this.props.label}</div>
