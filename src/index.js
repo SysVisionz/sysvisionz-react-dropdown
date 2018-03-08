@@ -83,14 +83,16 @@ export default class Dropdown extends Component {
 
   constructor(props) {
     super(props);
-    const {reverseOrder, listVisible} = props;
+    const {reverseOrder} = props;
+    const listVisible = typeof props.listVisible === 'undefined' ? false : props.listVisible;
     let {entries, buttonId}=props;
     if (reverseOrder) {
       entries.reverse();
     }
     const keyProp = keyName(props.label) + Math.floor(Math.random()*1000000);
     buttonId = (buttonId || 'svzDropButton' + Math.floor(Math.random()*1000000));
-    let lastVisible;
+    const lastVisible=listVisible;
+    const isOpen=listVisible;
     const {dropDirection, popDirection, delay} = props;
     const popStyle = listStyle(dropDirection, popDirection);
     this.state ={
@@ -103,7 +105,7 @@ export default class Dropdown extends Component {
       keyProp,
       buttonId,
       popStyle,
-      isOpen: delay ? false : undefined,
+      isOpen,
       listClickable: true
     }
     if (!props.keepOpen) window.addEventListener('click', this.onClickClose.bind(this));
@@ -231,7 +233,7 @@ export default class Dropdown extends Component {
     return (
       <div style = {{position: 'relative', display: 'inline-block', ...style}} className={className} id={id}>
         <div id={buttonId} style = {{cursor: 'pointer', ...buttonStyle}} onClick={() => buttonClick()}>{this.props.label}</div>
-        <div style = {{pointerEvents: listClickable ? 'auto' : 'none'}} hidden={typeof isOpen != 'undefined' ? !isOpen : !listVisible}>
+        <div style = {{pointerEvents: listClickable ? 'auto' : 'none'}} hidden={typeof delay === 'undefined' ? !isOpen : !listVisible}>
           <div className={menuClass} id={menuId} style={{...popStyle, ...menuStyle}}>
             {renderMenu()}
           </div>
