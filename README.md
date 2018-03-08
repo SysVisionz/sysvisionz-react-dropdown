@@ -93,7 +93,7 @@ and finally, implement it by including that component within your code:
 
 #### onToggle
 **accepted variables:** function  
-**behavior:** function performed when menu is opened or closed, using true if the menu is now open or false if it is now closed.
+**behavior:** function performed when menu is opened or closed
 
 #### onOpen
 **accepted variables:** function  
@@ -139,4 +139,6 @@ added ability to split array elements into ```id``` and ```children``` propertie
 1.6 -  
 added onToggle, onOpen, and onClose properties.  
 1.7 -  
-added delay and clickableInDelay properties.  
+added delay and clickableInDelay properties.
+1.8 -  
+significant refactor for reliability, removal of retrieved redundant boolean on onToggle.

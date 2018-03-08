@@ -1,18 +1,98 @@
 import React, { Component } from 'react';
 
+const keyName = (label) => {
+  let key;
+  if(label.props){
+    if (label.props.children){
+      if (typeof label.props.children === 'string'){
+        return label.props.children;
+      }
+      for(let i of label.props.children){
+        key = this.keyName(i);
+        if (key !== 'dropElem')
+          return key;
+      }
+    }
+  }
+  return 'dropElem';
+}
+
+const listStyle = (dropDirection, popDirection) => {
+  let all = {position: 'absolute', display: 'flex'}
+  switch (popDirection || dropDirection){
+    case 'right':
+    case 'left':
+      all.flexDirection = 'row';
+      break;
+    case 'down':
+    case 'up':
+    default:
+      all.flexDirection = 'column'
+  }
+  switch(dropDirection){
+    case 'up':
+      all.bottom = '100%'
+      switch(popDirection){
+        case 'left':
+          all.right=0;
+          return all;
+        case 'right':
+          all.left=0;
+          return all;
+        case 'up':
+        default:
+          return all;
+      }
+    case 'left':
+      all.right='100%';
+      switch(popDirection){
+        case 'up':
+          all.bottom = 0;
+          return all;
+        default:
+          all.top=0;
+          return all;
+      }
+    case 'right':
+      all.left='100%'
+      switch(popDirection){
+        case 'up':
+          all.bottom=0;
+          return all;
+        default:
+          all.top= 0;
+          return all;
+      }
+    case 'down':
+    default:
+      switch(popDirection){
+        case 'left':
+          all.right= 0;
+          return all;
+        case 'right':
+          all.left= 0;
+          return all;
+        case 'down':
+        default:
+          return all
+      }
+  }
+}
+
 export default class Dropdown extends Component {
 
   constructor(props) {
     super(props);
     const {reverseOrder, listVisible} = props;
     let {entries, buttonId}=props;
-    const {keyName} = this;
-    entries = reverseOrder ?  this.reverseArray(entries) : entries;
+    if (reverseOrder) {
+      entries.reverse();
+    }
     const keyProp = keyName(props.label) + Math.floor(Math.random()*1000000);
     buttonId = (buttonId || 'svzDropButton' + Math.floor(Math.random()*1000000));
     let lastVisible;
     const {dropDirection, popDirection, delay} = props;
-    const popStyle = this.listStyle(dropDirection, popDirection);
+    const popStyle = listStyle(dropDirection, popDirection);
     this.state ={
       popDirection,
       dropDirection,
@@ -26,46 +106,44 @@ export default class Dropdown extends Component {
       isOpen: delay ? false : undefined,
       listClickable: true
     }
-    !props.keepOpen ? window.addEventListener('click', this.onClickClose.bind(this)) : void 0;
+    if (!props.keepOpen) window.addEventListener('click', this.onClickClose.bind(this));
   }
 
   componentWillUpdate() {
-    this.state.lastVisible = this.state.listVisible;
+    //record if menu was open or closed for comparison after component update
+    this.lastVisible = this.state.listVisible;
   }
 
   componentWillReceiveProps(nextProps){
-    const {listStyle} = this
     const {dropDirection, popDirection} = nextProps;
     const popStyle = listStyle(dropDirection, popDirection);
-    this.state.popDirection != popDirection || this.state.dropDirection != dropDirection 
-    ? this.setState({popStyle, popDirection, dropDirection}) 
-    : void 0;
+    if (this.state.popDirection != popDirection || this.state.dropDirection != dropDirection){
+      this.setState({popStyle, popDirection, dropDirection});
+    }
   }
 
   componentDidUpdate() {
-    if (this.state.lastVisible != this.state.listVisible){
-      this.props.onToggle ? this.props.onToggle(this.state.listVisible): void 0;
-      this.props.onOpen 
-      ? this.state.listVisible ? this.props.onOpen() : void 0 
-      : void 0;
-      this.props.onClose 
-      ? !this.state.listVisible ? this.props.onClose() : void 0 
-      : void 0;
+    //Check if update is because list opened or closed.
+    if (this.lastVisible != this.state.listVisible){
+      //Checks if component has onToggle, onOpen, or OnClose functions and runs them.
+      if (this.props.onToggle) {
+        this.props.onToggle();
+      }
+      if (this.props.onOpen && this.state.listVisible) {
+        this.props.onOpen();
+      }
+      if (this.props.onClose && this.state.listVisible) {
+        this.props.onClose();
+      }
     }
-  }
-
-  reverseArray = (array) => {
-    let newArray=[];
-    for( const entry in array ){
-      newArray.splice(0,0,array[entry]);
-    }
-    return newArray;
   }
 
   onClickClose = (event) => {
+    //check if list is currently open
     if(this.state.listVisible){
       const label = document.getElementById(this.state.buttonId);
       let currentTarg = event.target;
+      //check if target of click is within the activating button to prevent closing if this is activating button
       while (currentTarg){
         if (currentTarg === label){
           return;
@@ -77,111 +155,73 @@ export default class Dropdown extends Component {
   }
 
   closeMenu = () => {
+    //if there is a delay, perform extra functions to check if the delay is currently active 
     if (this.props.delay) {
-      this.delayer ? clearTimeout(this.delayer): void 0;
-      !this.props.clickableInDelay ? this.setState({listVisible: false, listClickable: false}) : void 0;
+      //restart the delay if the delay is active.
+      if (this.delayer) {
+        clearTimeout(this.delayer);
+      }
+      //unless specified, the list cannot be clicked during the delay period
+      if (!this.props.clickableInDelay) {
+        this.setState({listVisible: false, listClickable: false});
+      }
       this.delayer = setTimeout(() => this.setState({isOpen: false, listClickable: true}), this.props.delay);
     }
     else
       this.setState({listVisible: false});
   }
 
-  listStyle = (dropDirection, popDirection) => {
-    let all = {position: 'absolute', display: 'flex'}
-    switch (popDirection || dropDirection){
-      case 'right':
-      case 'left':
-        all.flexDirection = 'row';
-        break;
-      case 'down':
-      case 'up':
-      default:
-        all.flexDirection = 'column'
-    }
-    switch(dropDirection){
-      case 'up':
-        all.bottom = '100%'
-        switch(popDirection){
-          case 'left':
-            all.right=0;
-            return all;
-          case 'right':
-            all.left=0;
-            return all;
-          case 'up':
-          default:
-            return all;
-        }
-      case 'left':
-        all.right='100%';
-        switch(popDirection){
-          case 'up':
-            all.bottom = 0;
-            return all;
-          default:
-            all.top=0;
-            return all;
-        }
-      case 'right':
-        all.left='100%'
-        switch(popDirection){
-          case 'up':
-            all.bottom=0;
-            return all;
-          default:
-            all.top= 0;
-            return all;
-        }
-      case 'down':
-      default:
-        switch(popDirection){
-          case 'left':
-            all.right= 0;
-            return all;
-          case 'right':
-            all.left= 0;
-            return all;
-          case 'down':
-          default:
-            return all
-        }
-    }
-  }
-
-  keyName = (label) => {
-    let key;
-    if(label.props){
-      if (label.props.children){
-        if (typeof label.props.children === 'string'){
-          return label.props.children;
-        }
-        for(let i of label.props.children){
-          key = this.keyName(i);
-          if (key !== 'dropElem')
-            return key;
-        }
-      }
-    }
-    return 'dropElem';
-  }
-
   renderMenu = () => {
     const {listItemStyle, entries} = this.props;
     const {keyProp} = this.state;
     return entries.map((entry, index) => {
-      if (entry.id)
-        return (<div key={keyProp.concat(index)} style={listItemStyle} id={entry.id} className="listEntry" onClick ={() => this.props.onSelect ? this.props.onSelect(entry.children) : void 0}>{entry.children}</div>);
-      else 
-        return (<div key={keyProp.concat(index)} style={listItemStyle} className="listEntry" onClick={() => this.props.onSelect ? this.props.onSelect(entry) : void 0}>{entry}</div>);
+      //if entry is constructed with an id variable, use that
+      if (entry.id || entry.className) {
+        return (
+          <div 
+            key={keyProp.concat(index)} 
+            style={listItemStyle} 
+            id={entry.id} 
+            className={entry.className ? entry.className : "listEntry"} 
+            onClick ={() => {
+                if (this.props.onSelect){
+                  this.props.onSelect(entry.children)
+                }
+              }
+            }
+          >
+            {entry.children}
+          </div>
+        );
+      }
+      else {
+        //if entry is constructed without an id variable or class, assume use as a basic component
+        return (<div 
+          key={keyProp.concat(index)} 
+          style={listItemStyle} 
+          className="listEntry" 
+          onClick={() => {
+            if (this.props.onSelect)
+              this.props.onSelect(entry)
+          }}
+        >
+          {entry}
+        </div>);
+      }
     });
   }
 
   buttonClick = () => {
-    this.delayer ? clearTimeout(this.delayer): void 0;
+    //if the delay is still going, restart it
+    if (this.delayer) {
+      clearTimeout(this.delayer);
+    }
+    // the list's state will be set to not visible, making it unclickable. It will be visually there until the delay completes
     this.setState({listVisible: !this.state.listVisible});
-    this.props.delay
-      ? this.state.listVisible ? this.closeMenu() : this.setState({isOpen: true})
-      : void 0;
+    // if a delay is set, perform the delay before completely hiding the list.
+    if (this.props.delay) {
+      this.state.listVisible ? this.closeMenu() : this.setState({isOpen: true});
+    }
   }
 
   render() {
