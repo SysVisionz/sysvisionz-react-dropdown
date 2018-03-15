@@ -38,26 +38,6 @@ and finally, implement it by including that component within your code:
 
 ### Optional Variables
 
-#### keepOpen
-**accepted variables:** boolean  
-**behavior:** Defaults to false. Dictates if dropdown menu will stay open when clicking outside it. Menu can still be closed by clicking on the activating button
-
-#### onSelect
-**accepted variables:** function  
-**behavior:** Function performed when a dropdown menu item is clicked using the entry clicked.
-
-#### buttonId
-**accepted variables:** string  
-**behavior:** dictates the id property for the activating button in the menu. This is automatically generated if left blank.
-
-#### menuId
-**accepted variables:** string  
-**behavior:** dictates the id for the dropdown menu element.
-
-#### reverseOrder
-**accepted variables:** boolean  
-**behavior:** Defaults to false. Reverses order in which the menu items appear.
-
 #### dropDirection
 
 **accepted variables:** 'up', 'down', 'left', 'right'  
@@ -69,27 +49,13 @@ and finally, implement it by including that component within your code:
 *cannot be opposite of popDirection.*  
 **behavior:** Defaults to popDirection variable if not specified. This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.
 
-
-#### listVisible
-
+#### keepOpen
 **accepted variables:** boolean  
-**behavior:** Defaults to false. Dictates if dropdown menu is initially expanded.
+**behavior:** Defaults to false. Dictates if dropdown menu will stay open when clicking outside it. Menu can still be closed by clicking on the activating button
 
-### style
-**accepted variables:** JSX styling. **DO NOT INCLUDE position STYLING**  
-**behavior:** dictates styling of the overall dropdown
-
-#### buttonStyle
-**accepted variables:** JSX styling  
-**behavior:** dictates styling of the dropdown activating button
-
-#### menuStyle
-**accepted variables:** JSX styling  **DO NOT INCLUDE position STYLING**  
-**behavior:** dictates styling of the dropdown menu
-
-#### listItemStyle
-**accepted variables:** JSX styling  
-**behavior:** dictates styling of the individual dropdown elements
+#### onSelect
+**accepted variables:** function  
+**behavior:** Function performed when a dropdown menu item is clicked using the entry clicked.
 
 #### onToggle
 **accepted variables:** function  
@@ -110,6 +76,39 @@ and finally, implement it by including that component within your code:
 #### clickableInDelay
 **accepted variables:** boolean  
 **behavior:** if menu is clickable during the delay when closing.
+
+#### buttonId
+**accepted variables:** string  
+**behavior:** dictates the id property for the activating button in the menu. This is automatically generated if left blank.
+
+#### menuId
+**accepted variables:** string  
+**behavior:** dictates the id for the dropdown menu element.
+
+#### reverseOrder
+**accepted variables:** boolean  
+**behavior:** Defaults to false. Reverses order in which the menu items appear.
+
+#### listVisible
+**accepted variables:** boolean  
+**behavior:** Defaults to false. Dictates if dropdown menu is initially expanded.
+
+### style
+**accepted variables:** JSX styling. **DO NOT INCLUDE position STYLING**  
+**behavior:** dictates styling of the overall dropdown
+
+#### buttonStyle
+**accepted variables:** JSX styling  
+**behavior:** dictates styling of the dropdown activating button
+
+#### menuStyle
+**accepted variables:** JSX styling  **DO NOT INCLUDE position STYLING**  
+**behavior:** dictates styling of the dropdown menu
+
+#### listItemStyle
+**accepted variables:** JSX styling  
+**behavior:** dictates styling of the individual dropdown elements
+
 
 ### Prerequisites
 
@@ -139,6 +138,6 @@ added ability to split array elements into ```id``` and ```children``` propertie
 1.6 -  
 added onToggle, onOpen, and onClose properties.  
 1.7 -  
-added delay and clickableInDelay properties.
+added delay and clickableInDelay properties.  
 1.8 -  
-significant refactor for reliability, removal of retrieved redundant boolean on onToggle.
+significant refactor for reliability, removal of retrieved redundant boolean on onToggle.  
