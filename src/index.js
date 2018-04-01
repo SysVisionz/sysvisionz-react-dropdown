@@ -22,9 +22,13 @@ const listStyle = (dropDirection, popDirection) => {
   switch (popDirection || dropDirection){
     case 'right':
     case 'left':
+    case 'rightUp':
+    case 'leftUp':
       all.flexDirection = 'row';
       break;
     case 'down':
+    case 'downLeft':
+    case 'upLeft':
     case 'up':
     default:
       all.flexDirection = 'column'
@@ -63,6 +67,19 @@ const listStyle = (dropDirection, popDirection) => {
           all.top= 0;
           return all;
       }
+    case 'downLeft':
+      all.right='100%';
+      return all;
+    case 'upLeft':
+      all.right='100%';
+      all.bottom='100%';
+      return all;
+    case 'rightUp':
+      all.left='100%';
+      all.bottom=0;
+    case 'leftUp':
+      all.right='100%';
+      all.bottom=0;
     case 'down':
     default:
       switch(popDirection){

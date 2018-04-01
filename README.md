@@ -40,14 +40,14 @@ and finally, implement it by including that component within your code:
 
 #### dropDirection
 
-**accepted variables:** 'up', 'down', 'left', 'right'  
-**behavior:** Defaults to 'down' variable if not specified. This dictates the direction that your dropdown menu drops out of the activating button.
+**accepted variables:** 'up', 'down', 'left', 'right', 'downLeft', 'upLeft', 'leftUp', 'rightUp'
+**behavior:** Defaults to 'down' variable if not specified. This dictates the direction that your dropdown menu drops out of the activating button. downLeft and upLeft are special variants; they render a normal dropDirection, but orient the menu's edge to the opposite of the basic version (to the right edge for downLeft and upLeft, and to the bottom edge for rightUp and leftUp) to the activating button instead of the left edge. Note that, due to their nature, they make the popDirection variable unnecessary by definition.
 
 
 #### popDirection
 **accepted variables:** 'up', 'down', 'left', 'right'  
-*cannot be opposite of popDirection.*  
-**behavior:** Defaults to popDirection variable if not specified. This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.
+*cannot be opposite of dropDirection.*  
+**behavior:** Defaults to dropDirection variable if not specified. This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.
 
 #### keepOpen
 **accepted variables:** boolean  
@@ -141,3 +141,5 @@ added onToggle, onOpen, and onClose properties.
 added delay and clickableInDelay properties.  
 1.8 -  
 significant refactor for reliability, removal of retrieved redundant boolean on onToggle.  
+1.9 -  
+implementation of leftUp, rightUp, upLeft and downLeft dropDirection options.
