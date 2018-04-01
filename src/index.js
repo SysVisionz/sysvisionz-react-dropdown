@@ -77,9 +77,11 @@ const listStyle = (dropDirection, popDirection) => {
     case 'rightUp':
       all.left='100%';
       all.bottom=0;
+      return all;
     case 'leftUp':
       all.right='100%';
       all.bottom=0;
+      return all;
     case 'down':
     default:
       switch(popDirection){
