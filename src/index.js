@@ -68,10 +68,10 @@ const listStyle = (dropDirection, popDirection) => {
           return all;
       }
     case 'downLeft':
-      all.right='100%';
+      all.right=0;
       return all;
     case 'upLeft':
-      all.right='100%';
+      all.right=0;
       all.bottom='100%';
       return all;
     case 'rightUp':
