@@ -127,12 +127,16 @@ export default class Dropdown extends Component {
       isOpen,
       listClickable: true
     }
-    if (!props.keepOpen) window.addEventListener('click', this.onClickClose.bind(this));
+    if (!props.keepOpen) window.addEventListener('click', this.onClickClose);
   }
 
   componentWillUpdate() {
     //record if menu was open or closed for comparison after component update
     this.lastVisible = this.state.listVisible;
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onClickClose);
   }
 
   componentWillReceiveProps(nextProps){
