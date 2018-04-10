@@ -1,7 +1,7 @@
 {
   "name": "sysvisionz-react-dropdown",
-  "version": "1.9.2",
-  "description": "A quick and easy but lightweight and highly customizable dropdown menu creator",
+  "version": "2.0.0",
+  "description": "A quick and easy but lightweight and incredibly customizable dropdown menu creator",
   "main": "build/index.js",
   "repository": "https://github.com/SysVisionz/sysvisionz-react-dropdown",
   "keywords": ["dropdown", "menu", "SysVisionz", "customizable", "custom", "react", "component"],

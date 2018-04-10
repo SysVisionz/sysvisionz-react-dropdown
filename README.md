@@ -39,19 +39,28 @@ and finally, implement it by including that component within your code:
 ### Optional Variables
 
 #### dropDirection
-
-**accepted variables:** 'up', 'down', 'left', 'right', 'downLeft', 'upLeft', 'leftUp', 'rightUp'
+**accepted variables:** 'up', 'down', 'left', 'right'  
 **behavior:** Defaults to 'down' variable if not specified. This dictates the direction that your dropdown menu drops out of the activating button. downLeft and upLeft are special variants; they render a normal dropDirection, but orient the menu's edge to the opposite of the basic version (to the right edge for downLeft and upLeft, and to the bottom edge for rightUp and leftUp) to the activating button instead of the left edge. Note that, due to their nature, they make the popDirection variable unnecessary by definition.
-
 
 #### popDirection
 **accepted variables:** 'up', 'down', 'left', 'right'  
 *cannot be opposite of dropDirection.*  
 **behavior:** Defaults to dropDirection variable if not specified. This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.
 
+#### orientation
+**accepted variables:** 'top', 'bottom', 'left', 'right', 'center'  
+*top, bottom, left, and right can only be applied when **popDirection** prop is not used. center may always be used*  
+*note that top and bottom can only be used with dropDirection of left or right, and left or right with dropDirection up or down*   
+**behavior:** controls where the dropdown menu is oriented in relation to its supplied dropDirection. orientation center will make a menu dropping downwards appear centered beneath the activating button, where orientation left will make the right edge of the menu align with the right edge of the activating button.
+
+#### controlled
+**accepted variables:** boolean  
+**behavior:** dictates whether the menu is opened and closed by an outside variable (which is supplied through the isOpen variable)
+
 #### keepOpen
 **accepted variables:** boolean  
-**behavior:** Defaults to false. Dictates if dropdown menu will stay open when clicking outside it. Menu can still be closed by clicking on the activating button
+**behavior:** Defaults to false, unless **controlled** is true, then it defaults to true. Dictates if dropdown menu will stay open when clicking outside it or on the entries in the menu. Menu can still be closed by clicking on the activating button
+**note:** if you do set this to false while controlled is true, it is highly recommended that you use the onToggle function to reset your isOpen variable accordingly!
 
 #### onSelect
 **accepted variables:** function  
@@ -59,7 +68,7 @@ and finally, implement it by including that component within your code:
 
 #### onToggle
 **accepted variables:** function  
-**behavior:** function performed when menu is opened or closed
+**behavior:** function performed when menu is opened or closed. Supplies boolean for whether or not the menu is open as the first variable.
 
 #### onOpen
 **accepted variables:** function  
@@ -77,37 +86,49 @@ and finally, implement it by including that component within your code:
 **accepted variables:** boolean  
 **behavior:** if menu is clickable during the delay when closing.
 
+#### id
+**accepted variables:** string  
+**behavior:** dictates the id for the overall element.
+
+#### className
+**accepted variables:** string  
+**behavior:** dictates the className for the overall element.
+
+#### style
+**accepted variables:** string  
+**behavior:** dictates the style for the overall element.
+
 #### buttonId
 **accepted variables:** string  
-**behavior:** dictates the id property for the activating button in the menu. This is automatically generated if left blank.
+**behavior:** dictates the id property for the activating button.
+
+#### buttonClass
+**accepted variables:** string  
+**behavior:** dictates the className for the activating button.
+
+#### buttonStyle
+**accepted variables:** string  
+**behavior:** dictates the style for the activating button.
 
 #### menuId
 **accepted variables:** string  
 **behavior:** dictates the id for the dropdown menu element.
 
-#### reverseOrder
-**accepted variables:** boolean  
-**behavior:** Defaults to false. Reverses order in which the menu items appear.
-
-#### listVisible
-**accepted variables:** boolean  
-**behavior:** Defaults to false. Dictates if dropdown menu is initially expanded.
-
-### style
-**accepted variables:** JSX styling. **DO NOT INCLUDE position STYLING**  
-**behavior:** dictates styling of the overall dropdown
-
-#### buttonStyle
-**accepted variables:** JSX styling  
-**behavior:** dictates styling of the dropdown activating button
+#### menuClass
+**accepted variables:** string  
+**behavior:** dictates the className for the dropdown menu element.
 
 #### menuStyle
-**accepted variables:** JSX styling  **DO NOT INCLUDE position STYLING**  
-**behavior:** dictates styling of the dropdown menu
+**accepted variables:** string  
+**behavior:** dictates the style for the dropdown menu element.
 
-#### listItemStyle
+#### listClass
+**accepted variables:** string  
+**behavior:** dictates the className for all individual items in the dropdown menu.
+
+#### listStyle
 **accepted variables:** JSX styling  
-**behavior:** dictates styling of the individual dropdown elements
+**behavior:** dictates styling for all individual items in the dropdown menu.
 
 
 ### Prerequisites
@@ -143,3 +164,10 @@ added delay and clickableInDelay properties.
 significant refactor for reliability, removal of retrieved redundant boolean on onToggle.  
 1.9 -  
 implementation of leftUp, rightUp, upLeft and downLeft dropDirection options.
+
+2.0 -
+Complete refactor and bugfixes
+addition of orientation
+modification of listVisible to isOpen for ease of use
+significant additions to user control of elements.
+addition of controlled option.
