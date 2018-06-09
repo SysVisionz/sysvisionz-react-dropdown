@@ -115,6 +115,7 @@ export default class Dropdown extends Component {
 		this.identifier = Math.floor(Math.random()*1000000);
 		this.state ={
 			isOpen: props.isOpen,
+			openClass: props.isOpen,
 			listClickable: true,
 			offset: {top: undefined, left: undefined},
 			// if controlled is true, keepOpen defaults to true, unless otherwise defined.
@@ -124,7 +125,7 @@ export default class Dropdown extends Component {
 
 	componentWillUnmount() {
 		// clean up onclick listener if it exists.
-		window.removeEventListener('click', this.onClickClose);
+		document.removeEventListener('click', this.onClickClose);
 	}
 
 	selectedItem = (selection) => {
@@ -149,7 +150,7 @@ export default class Dropdown extends Component {
 			this.centerMenu()
 		}
 		if (this.props.isOpen && !this.state.keepOpen){
-			window.addEventListener('click', this.onClickClose);
+			document.addEventListener('click', this.onClickClose);
 		}
 	}
 
@@ -184,16 +185,18 @@ export default class Dropdown extends Component {
 		// open the menu and make it clickable again, then add the event listener for onClickClose
 		// if keepOpen prop isn't true.
 		this.setState({isOpen: true, listClickable: true});
+		this.mayAnimate = setTimeout (() => this.setState({openClass: true}), 50);
 		if (!this.state.keepOpen){
-			window.addEventListener('click', this.onClickClose);
+			document.addEventListener('click', this.onClickClose);
 		}
 	}
 
 	onClickClose = evt => {
 		// test if you clicked within the menu, close it if you didn't.
 		if (!evt.target.closest('.'.concat(this.menuId))){
-			this.setState({isOpen: false});
-			window.removeEventListener('click', this.onClickClose);
+			this.setState({openClass: false})
+			this.delayer = setTimeout(this.closeMenu, this.props.delay)
+			document.removeEventListener('click', this.onClickClose);
 		}
 	}
 
@@ -203,13 +206,18 @@ export default class Dropdown extends Component {
 		}
 		if (!this.props.clickableInDelay) {this.setState({listClickable: false})};
 		//toggle menu to open or close depending on whether the menu is open at the moment, using the delay if the menu us closing.
-		if (!open){
-			this.delayer = setTimeout(this.openMenu, this.props.delay);
+		if (open){
+			this.setState({openClass: false});
+			this.delayer = setTimeout(this.closeMenu, this.props.delay);
 		}
 		else {
-			this.setState({isOpen: false, listClickable: true});
-			window.removeEventListener('click', this.onClickClose);
+			this.openMenu();
 		}
+	}
+
+	closeMenu = () => {
+		this.setState({isOpen: false, listClickable: true});
+		document.removeEventListener('click', this.onClickClose);
 	}
 
 	buttonClick = open => {
@@ -277,7 +285,8 @@ export default class Dropdown extends Component {
 		const {
 			listClickable, 
 			isOpen,
-			offset
+			offset,
+			openClass
 		} = state;
 		const drop = dropDirection == 'left' || dropDirection == 'right';
 		const pop = popDirection ? popDirection == 'left' || popDirection =='right' : null;
@@ -288,7 +297,7 @@ export default class Dropdown extends Component {
 		return (
 			<div 
 				style = {{position: 'relative', display: 'inline-block', ...style}} 
-				className={className} 
+				className={openClass ? className+" open" : className + " closed"} 
 				id={id}
 			>
 				<div 

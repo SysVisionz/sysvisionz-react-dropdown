@@ -1,6 +1,6 @@
 # sysvisionz-react-dropdown
 
-This module allows you to utilize a simple, highly customizable dropdown menu that can be used in pretty much any way you see fit; a link menu, a traditional selector, however. It allows you to dictate both the direction the menu initially "pops" from the origin point, as well as the direction it "drops" from that original point.
+This module allows you to utilize a simple, highly customizable dropdown menu that can be used in pretty much any way you see fit; a link menu, a traditional selector, however. It allows you to dictate both the direction the menu initially "drops" from the original button, as well as the direction it "pops" outward from that original point, give each part styles or classes, put functions triggered by an item being selected, as well as the menu opening, closing, or every time it is toggled open or closed, control whether the menu is open through a value supplied from elsewhere, dictate if clicking outside the menu will close it or keep it open... or none of these things. It's a handy dandy toolbox of infinite possibilities and ridiculous simplicity!
 
 ## Getting Started
 
@@ -92,7 +92,7 @@ and finally, implement it by including that component within your code:
 
 #### className
 **accepted variables:** string  
-**behavior:** dictates the className for the overall element.
+**behavior:** dictates the className for the overall element. Note that this is, by design, followed by the "open" or "closed" class, depending on the state of the menu.
 
 #### style
 **accepted variables:** string  
@@ -171,3 +171,7 @@ addition of orientation
 modification of listVisible to isOpen for ease of use
 significant additions to user control of elements.
 addition of controlled option.
+2.1 - 
+Huge bugfix
+introduction of open and closed automatic class name.
+now properly allows for animations
