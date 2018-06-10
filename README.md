@@ -165,13 +165,13 @@ significant refactor for reliability, removal of retrieved redundant boolean on 
 1.9 -  
 implementation of leftUp, rightUp, upLeft and downLeft dropDirection options.
 
-2.0 -
-Complete refactor and bugfixes
-addition of orientation
-modification of listVisible to isOpen for ease of use
-significant additions to user control of elements.
-addition of controlled option.
-2.1 - 
-Huge bugfix
-introduction of open and closed automatic class name.
-now properly allows for animations
+2.0 -  
+Complete refactor and bugfixes  
+addition of orientation  
+modification of listVisible to isOpen for ease of use  
+significant additions to user control of elements.  
+addition of controlled option.  
+2.1 -  
+Huge bugfix  
+introduction of open and closed automatic class name.  
+now properly allows for animations  

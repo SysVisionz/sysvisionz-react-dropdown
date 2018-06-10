@@ -294,10 +294,11 @@ export default class Dropdown extends Component {
 		const popStyle = listStyle(dropDirection, popDirection, orientation, this.horizontal, offset);
 		this.buttonId = (props.buttonId || 'svzDropButton' + identifier);
 		this.menuId = (menuId || 'svzMenu' + identifier);
+		const cName = className ? className : '';
 		return (
 			<div 
 				style = {{position: 'relative', display: 'inline-block', ...style}} 
-				className={openClass ? className+" open" : className + " closed"} 
+				className={openClass ? cName+" open" : cName + " closed"} 
 				id={id}
 			>
 				<div 
