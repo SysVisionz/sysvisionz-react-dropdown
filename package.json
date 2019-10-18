@@ -1,8 +1,18 @@
 {
   "name": "sysvisionz-react-dropdown",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "A quick and easy but lightweight and incredibly customizable dropdown menu creator",
-  "keywords": ["dropdown", "customizable", "lightweight", "sysvisionz", "react", "simple", "premade", "custom", "component"],
+  "keywords": [
+    "dropdown",
+    "customizable",
+    "lightweight",
+    "sysvisionz",
+    "react",
+    "simple",
+    "premade",
+    "custom",
+    "component"
+  ],
   "main": "build/index.js",
   "scripts": {
     "start": "webpack --watch",
