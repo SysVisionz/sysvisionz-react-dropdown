@@ -9,16 +9,17 @@
 			opacity: 1;
 			background-color: #fcfcfc;
 			&.slide-in{
-				transition: height 400ms ease, width 400ms ease;
+				transition: height 400ms 300ms ease, width 400ms 300ms ease;
+				.menu-content{
+					opacity: 0;
+					transition: opacity 300ms ease;
+				}
 			}
 			&.fade-in{
 				opacity: 0;
 				transition: opacity 400ms ease;
 				&.active{
 					opacity: 1;
-				}
-				&.slide-in{
-					transition: opacity 400ms ease, height 400ms ease, width 400ms ease;
 				}
 			}
 			.menu-content{
@@ -84,10 +85,21 @@
 					transform: translate(0, -50%);
 				}
 			}
-			&.active{
+			&.active, &.transitioning{
 				overflow: visible;
 				.menu-content{
 					overflow: visible;
+				}
+			}
+			&.active{
+				&.slide-in{
+					transition: height 400ms ease, width 400ms ease;
+					.menu-content{
+						transition: opacity 300ms 400ms ease;
+					}
+				}
+				.menu-content.active{
+					opacity: 1;
 				}
 			}
 		}
