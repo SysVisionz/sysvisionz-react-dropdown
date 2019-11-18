@@ -70,7 +70,7 @@ and finally, implement it by including that component within your code:
 
 ### onToggle
 **type:** function  
-**supplies:** Boolean of current open state of menu.
+**supplies:** Boolean of current open state of menu.  
 **behavior:** function performed when menu is opened or closed.
 
 ### onOpen
@@ -82,15 +82,15 @@ and finally, implement it by including that component within your code:
 **behavior:** function performed when menu is closed.
 
 ### slideIn  
-**accepted variables:** Boolean
+**accepted variables:** Boolean  
 **behavior:** The menu does a smooth slide in animation.
 
 ### fadeIn
-**accepted variables:** Boolean
+**accepted variables:** Boolean  
 **behavior:** The menu does a smooth fade in animation.
 
 ### transition
-**accepted variables:** Number
+**accepted variables:** Number  
 **behavior:** Delays menu close for this many milliseconds, for the purposes of manually applied css transitions.
 
 ### className
@@ -108,7 +108,7 @@ As this is a React element, it doesn't run outside of a React environment.
 
 ## Author
 
-* **Colin Brennan** - *full project* - [SysVisionz](https://github.com/SysVisionz, https://www.npmjs.com/~sysvisionz)
+* **Colin Brennan** - *full project* - [SysVisionz Github](https://github.com/SysVisionz), [SysVisionz NPM Modules](https://www.npmjs.com/~sysvisionz)
 
 ## Version History
 1.0 -   
