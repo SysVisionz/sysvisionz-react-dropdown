@@ -5,6 +5,7 @@ This module allows you to utilize a simple, highly customizable dropdown menu th
 ## Getting Started
 
 <details><summary><strong>Installation</strong></summary>
+
 To install, in terminal type
 
 ```
@@ -54,61 +55,74 @@ ___
 **behavior:** This dictates the direction that your dropdown menu drops out of the activating button. downLeft and upLeft are special variants; they render a normal drop, but orient the menu's edge to the opposite of the basic version (to the right edge for downLeft and upLeft, and to the bottom edge for rightUp and leftUp) to the activating button instead of the left edge. Note that, due to their nature, they make the pop prop unnecessary by definition.</details>
 
 <details><summary><strong>pop</strong></summary>
+
 **accepted types:** 'up', 'down', 'left', 'right'  
 **default:** **drop**  
 **note:** *cannot be opposite of drop.*  
 **behavior:** This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.</details>
 
 <details><summary><strong>orientation</strong></summary>
+
 **accepted types:** 'top', 'bottom', 'left', 'right', 'center'  
 **behavior:** controls the dropdown menu relative to the activating button. 'center' will make a menu dropping downwards appear centered beneath the activating button, 'left' will make the right edge of the menu align with the right edge of the activating button, 'top' aligns the bottom edge with the bottom edge of the activating button, and so on.</details>
 
 <details><summary><strong>open</strong></summary>
+
 **type:** Boolean  
 **default:** **false**  
 **note:** *need not be set unless **controlled** is **true**.*
 **behavior:** Whether the dropdown is open or not.</details>
 
 <details><summary><strong>controlled</strong></summary>
+
 **type:** Boolean  
 **behavior:** dictates whether the menu is opened and closed by an outside variable (which is supplied through the **open** prop).</details>
 
 <details><summary><strong>keepOpen</strong></summary>
+
 **type:** boolean  
 **default:** **controlled**  
 **behavior:** Dictates if dropdown menu will stay open when clicking outside it or on the entries in the menu. Menu can still be closed by clicking on the activating button
 **note:** if you do set this to false while controlled is true, it is highly recommended that you use the onToggle function to reset **open**!</details>
 
 <details><summary><strong>onToggle</strong></summary>
+
 **type:** function  
 **supplies:** Boolean of current open state of menu.  
 **behavior:** function performed when menu is opened or closed.</details>
 
 <details><summary><strong>onOpen</strong></summary>
+
 **type:** function  
 **behavior:** function performed when menu is opened.</details>
 
 <details><summary><strong>onClose</strong></summary>
+
 **accepted types:** function  
 **behavior:** function performed when menu is closed.</details>
 
 <details><summary><strong>slideIn</strong></summary>
+
 **accepted types:** Boolean  
 **behavior:** The menu does a smooth slide in animation.</details>
 
 <details><summary><strong>fadeIn</strong></summary>
+
 **accepted types:** Boolean  
 **behavior:** The menu does a smooth fade in animation.</details>
 
 <details><summary><strong>transition</strong></summary>
+
 **accepted types:** Number  
 **behavior:** Delays menu close for this many milliseconds, for the purposes of manually applied css transitions.</details>
 
 <details><summary><strong>className</strong></summary>
+
 **type:** String  
 **behavior:** dictates the className for the overall element. Adds to prefix of **svz-dropdown-container** and is followed by **active** when the menu element is open.</details>
 
 <details><summary><strong>id</strong></summary>
+
 **type:** String  
 **behavior:** dictates the id for the dropdown containing div</details>
 </details>
@@ -123,6 +137,7 @@ As this is a React element, it doesn't run outside of a React environment.
 
 ## Version History
 <details><summary>1</summary>
+
 1.0 -  
 initial release  
 1.1 -  
@@ -150,6 +165,7 @@ implementation of leftUp, rightUp, upLeft and downLeft drop options.
 </details>
 
 <details><summary>2</summary>
+
 2.0 -  
 Complete refactor and bugfixes  
 addition of orientation  
@@ -162,6 +178,7 @@ introduction of open and closed automatic class name.
 now properly allows for animations  </details>
 
 <details><summary>3</summary>
+
 3.0 -  
 Complete refactor, removal of many extraneous prop, actual complete bugfixes.  
 3.1 -  
@@ -170,8 +187,9 @@ Controlled prop reintroduced properly.
 Bugfix on controlled and keepOpen props  </details>
 
 <details><summary>4</summary>
+
 4.0 -  
-Removal of a number of extraneous prop: **onChange**, **button**, **menuClass**  
+Removal of a number of extraneous props: **onChange**, **button**, **menuClass**  
 4.1 -  
 Revamping of the README.md
-</details>
+</details>	
