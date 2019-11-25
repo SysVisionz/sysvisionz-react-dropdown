@@ -122,7 +122,8 @@ As this is a React element, it doesn't run outside of a React environment.
 * **Colin Brennan** - *full project* - [SysVisionz Github](https://github.com/SysVisionz), [SysVisionz NPM Modules](https://www.npmjs.com/~sysvisionz)
 
 ## Version History
-1.0 -   
+<details><summary>1</summary>
+1.0 -  
 initial release  
 1.1 -  
 implemented ability to use any JSX element as activating button  
@@ -146,7 +147,9 @@ added delay and clickableInDelay properties.
 significant refactor for reliability, removal of retrieved redundant boolean on onToggle.  
 1.9 -  
 implementation of leftUp, rightUp, upLeft and downLeft drop options.
+</details>
 
+<details><summary>2</summary>
 2.0 -  
 Complete refactor and bugfixes  
 addition of orientation  
@@ -156,14 +159,19 @@ addition of controlled option.
 2.1 -  
 Huge bugfix  
 introduction of open and closed automatic class name.  
-now properly allows for animations  
+now properly allows for animations  </details>
 
+<details><summary>3</summary>
 3.0 -  
 Complete refactor, removal of many extraneous prop, actual complete bugfixes.  
 3.1 -  
 Controlled prop reintroduced properly.  
 3.2 -  
-Bugfix on controlled and keepOpen props  
+Bugfix on controlled and keepOpen props  </details>
 
+<details><summary>4</summary>
 4.0 -  
-Removal of a number of extraneous prop: **onChange**, **button**, **menuClass**
+Removal of a number of extraneous prop: **onChange**, **button**, **menuClass**  
+4.1 -  
+Revamping of the README.md
+</details>
