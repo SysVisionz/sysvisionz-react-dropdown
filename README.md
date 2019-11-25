@@ -24,12 +24,13 @@ and finally, implement it by including that component within your code:
     {children}
 </Dropdown>
 ```
+
+___
 </details>
 
 <details><summary><strong>Required Props</strong></summary>
 
 ___
-
 <details><summary><strong>children</strong></summary>
 
 **behavior:** Content of the activating button.</details>
@@ -38,10 +39,14 @@ ___
 
 **accepted types:** array of strings or JSX elements  
 **behavior:** dictates the children of the entries in the dropdown menu.
-</details></details>
+</details>
 
-<details><summary>Optional Props</summary>
+___
+</details>
 
+<details><summary><strong>Optional Props</strong></summary>
+
+___
 <details><summary><strong>drop</strong></summary>
 
 **accepted types:** 'up', 'down', 'left', 'right'  
