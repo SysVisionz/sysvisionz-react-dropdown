@@ -28,6 +28,7 @@ and finally, implement it by including that component within your code:
 
 <details><summary><strong>Required Props</strong></summary>
 
+___
 
 <details><summary><strong>children</strong></summary>
 
