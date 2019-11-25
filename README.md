@@ -26,13 +26,14 @@ and finally, implement it by including that component within your code:
 ```
 </details>
 
-<details><summary>Required Props</summary>
+<details><summary><strong>Required Props</strong></summary>
 
-<details><summary>children</summary>
+
+<details><summary><strong>children</strong></summary>
 
 **behavior:** Content of the activating button.</details>
 
-<details><summary>content</summary>
+<details><summary><strong>content</strong></summary>
 
 **accepted types:** array of strings or JSX elements  
 **behavior:** dictates the children of the entries in the dropdown menu.
@@ -41,6 +42,7 @@ and finally, implement it by including that component within your code:
 <details><summary>Optional Props</summary>
 
 <details><summary><strong>drop</strong></summary>
+
 **accepted types:** 'up', 'down', 'left', 'right'  
 **default:** 'down'  
 **behavior:** This dictates the direction that your dropdown menu drops out of the activating button. downLeft and upLeft are special variants; they render a normal drop, but orient the menu's edge to the opposite of the basic version (to the right edge for downLeft and upLeft, and to the bottom edge for rightUp and leftUp) to the activating button instead of the left edge. Note that, due to their nature, they make the pop prop unnecessary by definition.</details>
