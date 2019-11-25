@@ -4,7 +4,8 @@ This module allows you to utilize a simple, highly customizable dropdown menu th
 
 ## Getting Started
 
-### Installation
+<details><summary><strong>Installation</strong></summary>
+
 To install, in terminal type
 
 ```
@@ -25,82 +26,106 @@ and finally, implement it by including that component within your code:
 </Dropdown>
 ```
 
-## Necessary Variables
+___
+</details>
 
-### children
-**behavior:** Content of the activating button.  
+<details><summary><strong>Required Props</strong></summary>
 
-### content
+___
+<details><summary><strong>children</strong></summary>
 
-**accepted variables:** array of strings or JSX elements  
-**behavior:** dictates the children of the entries in the dropdown menu.  
+**behavior:** Content of the activating button.</details>
 
-## Optional Variables
+<details><summary><strong>content</strong></summary>
 
-### drop
-**accepted variables:** 'up', 'down', 'left', 'right'  
+**accepted types:** array of strings or JSX elements  
+**behavior:** dictates the children of the entries in the dropdown menu.
+</details>
+
+___
+</details>
+
+<details><summary><strong>Optional Props</strong></summary>
+
+___
+<details><summary><strong>drop</strong></summary>
+
+**accepted types:** 'up', 'down', 'left', 'right'  
 **default:** 'down'  
-**behavior:** This dictates the direction that your dropdown menu drops out of the activating button. downLeft and upLeft are special variants; they render a normal drop, but orient the menu's edge to the opposite of the basic version (to the right edge for downLeft and upLeft, and to the bottom edge for rightUp and leftUp) to the activating button instead of the left edge. Note that, due to their nature, they make the pop variable unnecessary by definition.
+**behavior:** This dictates the direction that your dropdown menu drops out of the activating button. downLeft and upLeft are special variants; they render a normal drop, but orient the menu's edge to the opposite of the basic version (to the right edge for downLeft and upLeft, and to the bottom edge for rightUp and leftUp) to the activating button instead of the left edge. Note that, due to their nature, they make the pop prop unnecessary by definition.</details>
 
-### pop
-**accepted variables:** 'up', 'down', 'left', 'right'  
+<details><summary><strong>pop</strong></summary>
+
+**accepted types:** 'up', 'down', 'left', 'right'  
 **default:** **drop**  
 **note:** *cannot be opposite of drop.*  
-**behavior:** This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.
+**behavior:** This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.</details>
 
-### orientation
-**accepted variables:** 'top', 'bottom', 'left', 'right', 'center'  
-**behavior:** controls the dropdown menu relative to the activating button. 'center' will make a menu dropping downwards appear centered beneath the activating button, 'left' will make the right edge of the menu align with the right edge of the activating button, 'top' aligns the bottom edge with the bottom edge of the activating button, and so on.
+<details><summary><strong>orientation</strong></summary>
 
-### open
+**accepted types:** 'top', 'bottom', 'left', 'right', 'center'  
+**behavior:** controls the dropdown menu relative to the activating button. 'center' will make a menu dropping downwards appear centered beneath the activating button, 'left' will make the right edge of the menu align with the right edge of the activating button, 'top' aligns the bottom edge with the bottom edge of the activating button, and so on.</details>
+
+<details><summary><strong>open</strong></summary>
+
 **type:** Boolean  
 **default:** **false**  
 **note:** *need not be set unless **controlled** is **true**.*
-**behavior:** Whether the dropdown is open or not.
+**behavior:** Whether the dropdown is open or not.</details>
 
-### controlled
+<details><summary><strong>controlled</strong></summary>
+
 **type:** Boolean  
-**behavior:** dictates whether the menu is opened and closed by an outside variable (which is supplied through the **open** variable).
+**behavior:** dictates whether the menu is opened and closed by an outside variable (which is supplied through the **open** prop).</details>
 
-### keepOpen
+<details><summary><strong>keepOpen</strong></summary>
+
 **type:** boolean  
 **default:** **controlled**  
 **behavior:** Dictates if dropdown menu will stay open when clicking outside it or on the entries in the menu. Menu can still be closed by clicking on the activating button
-**note:** if you do set this to false while controlled is true, it is highly recommended that you use the onToggle function to reset **open**!
+**note:** if you do set this to false while controlled is true, it is highly recommended that you use the onToggle function to reset **open**!</details>
 
-### onToggle
+<details><summary><strong>onToggle</strong></summary>
+
 **type:** function  
 **supplies:** Boolean of current open state of menu.  
-**behavior:** function performed when menu is opened or closed.
+**behavior:** function performed when menu is opened or closed.</details>
 
-### onOpen
+<details><summary><strong>onOpen</strong></summary>
+
 **type:** function  
-**behavior:** function performed when menu is opened.
+**behavior:** function performed when menu is opened.</details>
 
-### onClose
-**accepted variables:** function  
-**behavior:** function performed when menu is closed.
+<details><summary><strong>onClose</strong></summary>
 
-### slideIn  
-**accepted variables:** Boolean  
-**behavior:** The menu does a smooth slide in animation.
+**accepted types:** function  
+**behavior:** function performed when menu is closed.</details>
 
-### fadeIn
-**accepted variables:** Boolean  
-**behavior:** The menu does a smooth fade in animation.
+<details><summary><strong>slideIn</strong></summary>
 
-### transition
-**accepted variables:** Number  
-**behavior:** Delays menu close for this many milliseconds, for the purposes of manually applied css transitions.
+**accepted types:** Boolean  
+**behavior:** The menu does a smooth slide in animation.</details>
 
-### className
+<details><summary><strong>fadeIn</strong></summary>
+
+**accepted types:** Boolean  
+**behavior:** The menu does a smooth fade in animation.</details>
+
+<details><summary><strong>transition</strong></summary>
+
+**accepted types:** Number  
+**behavior:** Delays menu close for this many milliseconds, for the purposes of manually applied css transitions.</details>
+
+<details><summary><strong>className</strong></summary>
+
 **type:** String  
-**behavior:** dictates the className for the overall element. Adds to prefix of **svz-dropdown-container** and is followed by **active** when the menu element is open.
+**behavior:** dictates the className for the overall element. Adds to prefix of **svz-dropdown-container** and is followed by **active** when the menu element is open.</details>
 
-### id
+<details><summary><strong>id</strong></summary>
+
 **type:** String  
-**behavior:** dictates the id for the dropdown containing div
-
+**behavior:** dictates the id for the dropdown containing div</details>
+</details>
 
 ## Prerequisites
 
@@ -111,7 +136,9 @@ As this is a React element, it doesn't run outside of a React environment.
 * **Colin Brennan** - *full project* - [SysVisionz Github](https://github.com/SysVisionz), [SysVisionz NPM Modules](https://www.npmjs.com/~sysvisionz)
 
 ## Version History
-1.0 -   
+<details><summary>1</summary>
+
+1.0 -  
 initial release  
 1.1 -  
 implemented ability to use any JSX element as activating button  
@@ -135,6 +162,9 @@ added delay and clickableInDelay properties.
 significant refactor for reliability, removal of retrieved redundant boolean on onToggle.  
 1.9 -  
 implementation of leftUp, rightUp, upLeft and downLeft drop options.
+</details>
+
+<details><summary>2</summary>
 
 2.0 -  
 Complete refactor and bugfixes  
@@ -145,14 +175,21 @@ addition of controlled option.
 2.1 -  
 Huge bugfix  
 introduction of open and closed automatic class name.  
-now properly allows for animations  
+now properly allows for animations  </details>
+
+<details><summary>3</summary>
 
 3.0 -  
-Complete refactor, removal of many extraneous variables, actual complete bugfixes.  
+Complete refactor, removal of many extraneous prop, actual complete bugfixes.  
 3.1 -  
-Controlled variable reintroduced properly.  
+Controlled prop reintroduced properly.  
 3.2 -  
-Bugfix on controlled variable and keepOpen  
+Bugfix on controlled and keepOpen props  </details>
+
+<details><summary>4</summary>
 
 4.0 -  
-Removal of a number of extraneous variables: **onChange**, **button**, **menuClass**
+Removal of a number of extraneous props: **onChange**, **button**, **menuClass**  
+4.1 -  
+Revamping of the README.md
+</details>	
