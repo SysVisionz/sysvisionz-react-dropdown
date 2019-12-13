@@ -25,7 +25,6 @@ and finally, implement it by including that component within your code:
 ```
 
 ## Required Props
-<details><summary><strong>children</strong> and <strong>content</strong></summary>
 
 ### children
 Content of the activating button.
@@ -33,13 +32,9 @@ Content of the activating button.
 ### content
 **Type:** **Array** of [**String** || **React Element**]  
 **behavior:** dictates the children of the entries in the dropdown menu.
-</details>
 
 
 ## Optional Props
-<details><summary><strong>drop</strong>, <strong>pop</strong>, <strong>orientation</strong>, <strong>open</strong>, <strong>controlled</strong>, <strong>keepOpen</strong>, <strong>onToggle</strong>, <strong>onOpen</strong>, <strong>onClose</strong>, <strong>slideIn</strong>, <strong>fadeIn</strong>, <strong>transition</strong>, <strong>className</strong>, and <strong>id</strong></summary>
-
-___
 <details><summary><strong>drop</strong></summary>
 
 **accepted types:** 'up', 'down', 'left', 'right'  
@@ -117,7 +112,6 @@ ___
 
 **type:** String  
 **behavior:** dictates the id for the dropdown containing div</details>
-</details>
 
 ## Prerequisites
 
