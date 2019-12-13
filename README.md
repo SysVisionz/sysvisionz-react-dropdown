@@ -4,8 +4,6 @@ This module allows you to utilize a simple, highly customizable dropdown menu th
 
 ## Getting Started
 
-<details><summary><strong>Installation</strong></summary>
-
 To install, in terminal type
 
 ```
@@ -26,28 +24,17 @@ and finally, implement it by including that component within your code:
 </Dropdown>
 ```
 
-___
-</details>
+## Required Props
 
-<details><summary><strong>Required Props</strong></summary>
+### children
+Content of the activating button.
 
-___
-<details><summary><strong>children</strong></summary>
-
-**behavior:** Content of the activating button.</details>
-
-<details><summary><strong>content</strong></summary>
-
-**accepted types:** array of strings or JSX elements  
+### content
+**Type:** **Array** of [**String** || **React Element**]  
 **behavior:** dictates the children of the entries in the dropdown menu.
-</details>
 
-___
-</details>
 
-<details><summary><strong>Optional Props</strong></summary>
-
-___
+## Optional Props
 <details><summary><strong>drop</strong></summary>
 
 **accepted types:** 'up', 'down', 'left', 'right'  
@@ -125,7 +112,6 @@ ___
 
 **type:** String  
 **behavior:** dictates the id for the dropdown containing div</details>
-</details>
 
 ## Prerequisites
 
