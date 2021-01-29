@@ -24,6 +24,10 @@ and finally, implement it by including that component within your code:
 </Dropdown>
 ```
 
+## Using the Selector element
+
+The Selector element was introduced in 5.0 as a simplified version of the dropdown that 
+
 ## Required Props
 
 ### children
@@ -35,83 +39,83 @@ Content of the activating button.
 
 
 ## Optional Props
-<details><summary><strong>drop</strong></summary>
+<strong>drop</strong>
 
 **accepted types:** 'up', 'down', 'left', 'right'  
 **default:** 'down'  
-**behavior:** This dictates the direction that your dropdown menu drops out of the activating button. downLeft and upLeft are special variants; they render a normal drop, but orient the menu's edge to the opposite of the basic version (to the right edge for downLeft and upLeft, and to the bottom edge for rightUp and leftUp) to the activating button instead of the left edge. Note that, due to their nature, they make the pop prop unnecessary by definition.</details>
+**behavior:** This dictates the direction that your dropdown menu drops out of the activating button. downLeft and upLeft are special variants; they render a normal drop, but orient the menu's edge to the opposite of the basic version (to the right edge for downLeft and upLeft, and to the bottom edge for rightUp and leftUp) to the activating button instead of the left edge. Note that, due to their nature, they make the pop prop unnecessary by definition.
 
-<details><summary><strong>pop</strong></summary>
+<strong>pop</strong>
 
 **accepted types:** 'up', 'down', 'left', 'right'  
 **default:** **drop**  
 **note:** *cannot be opposite of drop.*  
-**behavior:** This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.</details>
+**behavior:** This dictates the direction that your dropdown menu pops outwards from the inital dropped out element.
 
-<details><summary><strong>orientation</strong></summary>
+<strong>orientation</strong>
 
 **accepted types:** 'top', 'bottom', 'left', 'right', 'center'  
-**behavior:** controls the dropdown menu relative to the activating button. 'center' will make a menu dropping downwards appear centered beneath the activating button, 'left' will make the right edge of the menu align with the right edge of the activating button, 'top' aligns the bottom edge with the bottom edge of the activating button, and so on.</details>
+**behavior:** controls the dropdown menu relative to the activating button. 'center' will make a menu dropping downwards appear centered beneath the activating button, 'left' will make the right edge of the menu align with the right edge of the activating button, 'top' aligns the bottom edge with the bottom edge of the activating button, and so on.
 
-<details><summary><strong>open</strong></summary>
+<strong>open</strong>
 
 **type:** Boolean  
 **default:** **false**  
 **note:** *need not be set unless **controlled** is **true**.*
-**behavior:** Whether the dropdown is open or not.</details>
+**behavior:** Whether the dropdown is open or not.
 
-<details><summary><strong>controlled</strong></summary>
+<strong>controlled</strong>
 
 **type:** Boolean  
-**behavior:** dictates whether the menu is opened and closed by an outside variable (which is supplied through the **open** prop).</details>
+**behavior:** dictates whether the menu is opened and closed by an outside variable (which is supplied through the **open** prop).
 
-<details><summary><strong>keepOpen</strong></summary>
+<strong>keepOpen</strong>
 
 **type:** boolean  
 **default:** **controlled**  
 **behavior:** Dictates if dropdown menu will stay open when clicking outside it or on the entries in the menu. Menu can still be closed by clicking on the activating button
-**note:** if you do set this to false while controlled is true, it is highly recommended that you use the onToggle function to reset **open**!</details>
+**note:** if you do set this to false while controlled is true, it is highly recommended that you use the onToggle function to reset **open**!
 
-<details><summary><strong>onToggle</strong></summary>
+<strong>onToggle</strong>
 
 **type:** function  
 **supplies:** Boolean of current open state of menu.  
-**behavior:** function performed when menu is opened or closed.</details>
+**behavior:** function performed when menu is opened or closed.
 
-<details><summary><strong>onOpen</strong></summary>
+<strong>onOpen</strong>
 
 **type:** function  
-**behavior:** function performed when menu is opened.</details>
+**behavior:** function performed when menu is opened.
 
-<details><summary><strong>onClose</strong></summary>
+<strong>onClose</strong>
 
 **accepted types:** function  
-**behavior:** function performed when menu is closed.</details>
+**behavior:** function performed when menu is closed.
 
-<details><summary><strong>slideIn</strong></summary>
-
-**accepted types:** Boolean  
-**behavior:** The menu does a smooth slide in animation.</details>
-
-<details><summary><strong>fadeIn</strong></summary>
+<strong>slideIn</strong>
 
 **accepted types:** Boolean  
-**behavior:** The menu does a smooth fade in animation.</details>
+**behavior:** The menu does a smooth slide in animation.
 
-<details><summary><strong>transition</strong></summary>
+<strong>fadeIn</strong>
+
+**accepted types:** Boolean  
+**behavior:** The menu does a smooth fade in animation.
+
+<strong>transition</strong>
 
 **accepted types:** Number  
 **behavior:** Delays menu close for this many milliseconds, for the purposes of manually applied css transitions.</details>
 
-<details><summary><strong>className</strong></summary>
+<strong>className</strong>
 
 **type:** String  
-**behavior:** dictates the className for the overall element. Adds to prefix of **svz-dropdown-container** and is followed by **active** when the menu element is open.</details>
+**behavior:** dictates the className for the overall element. Adds to prefix of **svz-dropdown-container** and is followed by **active** when the menu element is open.
 
-<details><summary><strong>id</strong></summary>
+<strong>id</strong>
 
 **type:** String  
-**behavior:** dictates the id for the dropdown containing div</details>
+**behavior:** dictates the id for the dropdown containing div
 
 ## Prerequisites
 
@@ -178,4 +182,10 @@ Bugfix on controlled and keepOpen props  </details>
 Removal of a number of extraneous props: **onChange**, **button**, **menuClass**  
 4.1 -  
 Revamping of the README.md
+</details>	
+
+<details><summary>5</summary>
+
+5.0 -  
+introduction of "Selector" component.
 </details>	

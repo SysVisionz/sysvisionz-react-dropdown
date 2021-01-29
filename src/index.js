@@ -1,128 +1,149 @@
-import React, {Component} from 'react'
+import React, {useRef, useState, useEffect} from 'react'
 import PropTypes from 'prop-types';
-import {filterJoin} from './svz-utilities';
+import SVZObject from 'svz-object'
 import './scss/Dropdown.scss';
 
-class Dropdown extends Component {
-
-	constructor(){
-		super();
-		this.contentDiv = React.createRef();
-		this.state = {open: false, transitioning: false}
+const filterJoin = (arr, joinVal = ' ') => {
+	for (const i in arr){
+		if(arr[i] && typeof arr[i] === 'object'){
+			arr[i] = arr[i][1] ? arr[i][0] : null;
+		}
 	}
-	
-	popStyling = () => {
-		const {open} = this.state;
-		const {transition = (this.props.slideIn ? 400 : 0), fadeIn, slideIn, drop, pop} = this.props;
+	return arr.filter(a => a).join(joinVal)
+}
+
+const Dropdown = props => {
+	const [open, setOpen] = useState(false)
+	const [transitioning, setTransitioning] = useState(false)
+	const [transitionTimer, setTransitionTimer] = useState(null);
+	const contentDiv = useRef(null);
+	const [clickedMenu, setClickedMenu] = useState(null);
+	const clickOutside = useRef(() => {
+		setTimeout(() => {
+			if (clickedMenu){
+				setClickedMenu = false;
+			}
+			else {
+				 toggleMenu(false);
+			}
+		}, 10)
+	})
+	const popStyling = () => {
+		const {transition = (props.slideIn ? 400 : 0), fadeIn, slideIn, drop, pop} = props;
 		const horizontal = {
 			drop: drop === 'left' || drop === 'right',
 			pop: pop === 'left' || pop ==='right'
 		}
 		let style = {
-			width: (open || !horizontal.pop) && this.contentDiv.current ? this.contentDiv.current.scrollWidth : 0,
-			height: (open || horizontal.pop) && this.contentDiv.current ? this.contentDiv.current.scrollHeight: 0,
+			width: (open || !horizontal.pop) && contentDiv && contentDiv.current ? contentDiv.current.scrollWidth : 0,
+			height: (open || horizontal.pop) && contentDiv && contentDiv.current ? contentDiv.current.scrollHeight: 0,
 		}
 		return style;
 	}
 
-	toggleMenu = open => {
-		const {onToggle, onOpen, onClose, transition = (this.props.slideIn ? 400 : 0) } = this.props;
+	const toggleMenu = open => {
+		const {onToggle, onOpen, onClose, transition = (props.slideIn ? 400 : 0) } = props;
 		if (onToggle){
 			onToggle(open);
 		}
 		if (open){
-			document.addEventListener('click', this.clickOutside)
+			document.addEventListener('click', clickOutside.current)
 			if (onOpen){
 				onOpen();
 			}
 		}
 		if (!open){
-			document.removeEventListener('click', this.clickOutside);
+			document.removeEventListener('click', clickOutside.current);
 			if(onClose){
 				onClose();
 			}
 		}
-		this.setState({open, transitioning: true})
-		clearTimeout(this.transitionTimer);
-		this.transitionTimer = setTimeout(() => this.setState({transitioning: false}), transition)
+		setOpen(open)
+		setTransitioning(true)
+		clearTimeout(transitionTimer);
+		setTransitionTimer(setTimeout(() => setTransitioning(false), transition))
 	}
 
-	componentDidUpdate = (prevProps, prevState) => {
-		const {open = this.state.open} = this.props;
-		if (this.state.open !== open){
-			this.toggleMenu(open);
+	useEffect(() => {
+		if (props.open !== open){
+			toggleMenu(open);
 		}
-	}
+	}, [open, props.open])
 
-	componentDidMount(){
-		const {toggleMenu} = this;
-		toggleMenu(this.props.open);
-	}
+	useEffect(() => {
+		toggleMenu(props.open);
+	},[])
 
-	clickOutside = () => {
-		setTimeout(() => {
-			console.log(this.clickedMenu)
-			if (this.clickedMenu){
-				this.clickedMenu = false;
-			}
-			else {
-				this.toggleMenu(false);
-			}
-		}, 10)
-	}
-
-	onChange = retval => {
-		const {onChange, keepOpen} = this.props;
+	const onChange = retval => {
+		const {onChange, keepOpen} = props;
 		if (!keepOpen){
-			this.toggleMenu(false);
+			toggleMenu(false);
 		}
 		return onChange ? onChange(retval) : null;
 	}
 
-	buildButton = () => {
-		const {children, button, controlled} = this.props;
-		const {open} = this.state;
-		return (<div className="svz-dropdown-button" onClick={() => !controlled ? this.toggleMenu(!open) : null}>{children || button}</div>)
+	const buildButton = () => {
+		const {children, button, controlled} = props;
+		return (<div className="svz-dropdown-button" onClick={() => !controlled ? toggleMenu(!open) : null}>{children || button}</div>)
 	}
 
-	menuClass = () => {
-		const {open, transitioning} = this.state;
-		const {menuClass, drop = 'down', orientation, slideIn, fadeIn, pop = drop} = this.props;
+	const menuClass = () => {
+		const {menuClass, drop = 'down', orientation, slideIn, fadeIn, pop = drop} = props;
 		return filterJoin(["svz-dropdown-menu", 'drop-' + drop, 'pop-' + pop, ['orient-' + orientation, orientation], ['active', open], ['transitioning', transitioning], ['slide-in', slideIn], ['fade-in', fadeIn]])
 	}
 
-	render(){
-		const {buildButton, buildMenu, popStyling, toggleMenu} = this;
-		const {keepOpen, id, className, content, pop = this.props.drop} = this.props;
-		const {open} = this.state;
-		const menuStyle = popStyling();
-		return (
-			<div id={id} className={filterJoin(["svz-dropdown-container", className, ['active', open]])}>
-				<div className="svz-dropdown-sub-container" >
-					{buildButton()}
+	const {keepOpen, id, className, content, pop = props.drop} = props;
+	const menuStyle = popStyling();
+	return (
+		<div id={id} className={filterJoin(["svz-dropdown-container", className, ['active', open]])}>
+			<div className="svz-dropdown-sub-container" >
+				{buildButton()}
+				<div 
+					style={menuStyle} 
+					className={menuClass()}
+					onClick = {() => setClickedMenu(keepOpen)} 
+				>
 					<div 
-						style={menuStyle} 
-						className={this.menuClass()}
-						onClick = {() => this.clickedMenu = keepOpen} 
+						className={filterJoin(['menu-content', ['active', open]])}
+						ref={contentDiv}
 					>
-						<div 
-							className={filterJoin(['menu-content', ['active', open]])}
-							ref={this.contentDiv} 
-						>
-							{content.map( (elem, index) => <div 
-									key= {`svz-dropdown-list-elem-${(id  || '') + index}`} 
-									onClick={() => !keepOpen ? toggleMenu(false) : this.clickedMenu = keepOpen}
-									className={'svz-dropdown-list-elem'}
-								>
-									{elem}
-								</div>
-							)}
-						</div>
+						{content.map( (elem, index) => <div 
+								key= {`svz-dropdown-list-elem-${(id  || '') + index}`} 
+								onClick={() => !keepOpen ? toggleMenu(false) : setClickedMenu(keepOpen)}
+								className={'svz-dropdown-list-elem'}
+							>
+								{elem}
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
-		)
+		</div>
+	)
+}
+
+const Selector = props => {
+	const [selection, setSelection] = useState(props.label),
+	onChange = selection => {
+		setSelection(selection)
+		if (props.onChange){
+			props.onChange(selection);
+		}
 	}
+	useEffect(() => {
+		if (props.label !== selection){
+			setSelection(selection);
+		}
+	}, [props.label])
+	return (
+			<Dropdown 
+				{...props}
+				content={props.options} 
+				onChange={i => onChange(i)}
+			>
+				{selection}
+			</Dropdown>
+	)
 }
 
 Dropdown.propTypes={
@@ -137,4 +158,4 @@ Dropdown.propTypes={
 	slide: PropTypes.bool,
 }
 
-export default Dropdown
+export {Dropdown as default, Selector}
