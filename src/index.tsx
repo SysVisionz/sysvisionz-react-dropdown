@@ -1,6 +1,5 @@
-import React, {useRef, useState, useEffect} from 'react'
-import PropTypes from 'prop-types';
-import SVZObject from 'svz-object'
+import {useRef, useState, useEffect, FC, createContext} from 'react'
+import Context from './Context';
 import './scss/Dropdown.scss';
 
 const filterJoin = (arr, joinVal = ' ') => {
@@ -12,22 +11,25 @@ const filterJoin = (arr, joinVal = ' ') => {
 	return arr.filter(a => a).join(joinVal)
 }
 
-const Dropdown = props => {
+
+const Dropdown: FC<Props> = props => {
 	const [open, setOpen] = useState(false)
 	const [transitioning, setTransitioning] = useState(false)
 	const [transitionTimer, setTransitionTimer] = useState(null);
 	const contentDiv = useRef(null);
 	const [clickedMenu, setClickedMenu] = useState(null);
-	const clickOutside = useRef(() => {
-		setTimeout(() => {
+	useEffect(() => {
+		clickedOutside ? setTimeout(() => {
 			if (clickedMenu){
-				setClickedMenu = false;
+				setClickedMenu(false);
 			}
 			else {
 				 toggleMenu(false);
 			}
 		}, 10)
-	})
+	}, [clickedOutside])
+	const clickOutside = useRef(() => {
+			})
 	const popStyling = () => {
 		const {transition = (props.slideIn ? 400 : 0), fadeIn, slideIn, drop, pop} = props;
 		const horizontal = {
@@ -74,14 +76,6 @@ const Dropdown = props => {
 		toggleMenu(props.open);
 	},[])
 
-	const onChange = retval => {
-		const {onChange, keepOpen} = props;
-		if (!keepOpen){
-			toggleMenu(false);
-		}
-		return onChange ? onChange(retval) : null;
-	}
-
 	const buildButton = () => {
 		const {children, button, controlled} = props;
 		return (<div className="svz-dropdown-button" onClick={() => !controlled ? toggleMenu(!open) : null}>{children || button}</div>)
@@ -122,7 +116,12 @@ const Dropdown = props => {
 	)
 }
 
-const Selector = props => {
+type SelectorProps = Props & {
+	options: any[];
+	onChange: (value: any) => void;
+}
+
+const Selector: FC<SelectorProps> = props => {
 	const [selection, setSelection] = useState(props.label),
 	onChange = selection => {
 		setSelection(selection)
@@ -144,18 +143,6 @@ const Selector = props => {
 				{selection}
 			</Dropdown>
 	)
-}
-
-Dropdown.propTypes={
-	onChange: PropTypes.func,
-	options: PropTypes.array,
-	orientation: PropTypes.string,
-	onClose: PropTypes.func,
-	onOpen: PropTypes.func,
-	pop: PropTypes.string,
-	drop: PropTypes.string,
-	fade: PropTypes.bool,
-	slide: PropTypes.bool,
 }
 
 export {Dropdown as default, Selector}
